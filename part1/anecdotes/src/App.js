@@ -41,6 +41,7 @@ const App = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length));
   };
 
+  // stores max value in points array
   const mostVotes = Math.max(...points);
 
   return (
@@ -49,6 +50,7 @@ const App = () => {
       <Votes votes={ votes[selected] }/>
       <Button handleClick={ selectedAnecdote } text='Next Anecdote' />
       <Button handleClick={ handleVote } text='Vote' />
+      {/* selects the index of the points array that has the most votes that corresponds to the index of the most voted array */}
       <p> { anecdotes[points.indexOf(mostVotes)] } </p>
     </div>
   )

@@ -15,12 +15,14 @@ const Statistics = ( {good, neutral, bad} ) => {
       <h2>Statistics</h2>
       { all === 0 ? <p>No feedback given</p> : (
         <>
+        <table>
           <StatisticLine text='Good' value={ good } />
           <StatisticLine text='Neutral' value={ neutral } />
           <StatisticLine text='Bad' value={ bad } />
           <StatisticLine text='all' value={ all } />
           <StatisticLine text='average' value={ ((good - bad) / (all)).toFixed(2) } />
           <StatisticLine text='positive' value={ (good / all * 100).toFixed(2) + '%' } />
+        </table>
         </>
       )} 
     </div>
@@ -29,7 +31,12 @@ const Statistics = ( {good, neutral, bad} ) => {
 
 const StatisticLine = ( {text, value} ) => {
   return (
-    <p>{ text }: { value }</p>
+    <tbody>
+      <tr>
+        <td>{ text } </td> 
+        <td>{ value }</td>
+      </tr>
+    </tbody>
   )
 }
 

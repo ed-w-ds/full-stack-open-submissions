@@ -1,4 +1,18 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import * as Math from 'mathjs';
+
+const Button = ( {text, handleClick} ) => {
+  return (
+    <button onClick={ handleClick } >
+      { text }
+    </button>
+  )
+}
+const Votes = ( { votes } ) => {
+  return (
+    <p>has { votes } votes</p>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -11,11 +25,27 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+
+
+
+
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
+  const copy = [...points]
+
+  const handleVote = () => {
+    const updatedPoints = [...points];
+    updatedPoints[selected] += 1;
+    setPoints(updatedPoints);
+  };
 
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <Votes votes={ copy[selected] }/>
+      <Button handleClick={ () => setSelected(Math.floor(Math.random() * anecdotes.length)) } text='Next Anecdote' />
+      <Button handleClick={ handleVote } text='Vote' />
+      
     </div>
   )
 }

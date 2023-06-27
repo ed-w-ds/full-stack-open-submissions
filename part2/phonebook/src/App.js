@@ -9,6 +9,10 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+    if (checkName(newName) || newName === '') {
+      alert(`${newName} is already added to phonebook`)
+      return 
+    }
     const personObject = {
       name: newName,
       id: persons.length + 1,
@@ -17,6 +21,11 @@ const App = () => {
     setNewName('')
     console.log(persons)
   }
+  const checkName = (name) => {
+    // checks if there is a name in the persons array that matches the name given
+    return persons.some(person => person.name === name)
+  }
+
 
   const handleNameChange = (event) => {
     console.log(event.target.value)

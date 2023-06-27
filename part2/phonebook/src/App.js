@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([

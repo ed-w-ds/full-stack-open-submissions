@@ -21,19 +21,9 @@
       "id": 4
     },
     {
-      "name": "Eda Smith",
-      "id": 5,
-      "number": "1239993"
-    },
-    {
       "name": "Jaden Smith",
-      "id": 6,
+      "id": 5,
       "number": "123-234-345"
-    },
-    {
-      "name": "Will Smith",
-      "id": 7,
-      "number": "234-345-456"
     }
   ]
 }

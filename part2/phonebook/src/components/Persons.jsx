@@ -1,8 +1,10 @@
 const Persons = ({ displayPersons }) => {
     return (
-        <ul>
-        { displayPersons() }
-        </ul>
+        <>
+            <ul>
+                { displayPersons() }
+            </ul>
+        </>
     )
 }
 

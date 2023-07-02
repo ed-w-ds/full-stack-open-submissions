@@ -53,11 +53,6 @@ const App = () => {
       number: newNumber
     }
 
-    // setPersons(persons.concat(personObject))
-    // setNewName('')
-    // setNewNumber('')
-    // console.log(persons)
-
     noteService 
       .create(personObject)
       .then(response => {
@@ -87,9 +82,25 @@ const App = () => {
     setNewSearch(event.target.value.toLowerCase())
   }
 
+  const deletePerson = (event) => {
+    console.log("event target dawg ", event.target.id);
+    const id = Number(event.target.id)
+    const person = persons.find(person => person.id === id)
+    console.log(person);
+    if (window.confirm(`Delete ${person.name}?`)) {
+      noteService
+        .deletePerson(id)
+        .then(response => {
+          setPersons(persons.filter(person => person.id !== id))
+        }
+      )
+    }
+  }
+
+
   const displayPersons = () => {  
     const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(newSearch)) 
-    return filteredPersons.map(person => <li key={person.id}>{person.name} {person.number}</li>)
+    return filteredPersons.map(person => <li key={person.id}>{person.name} {person.number} <button id={ person.id } onClick={ deletePerson } >Delete</button> </li> )
   }
 
   return (

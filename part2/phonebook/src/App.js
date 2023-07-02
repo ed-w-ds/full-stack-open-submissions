@@ -38,14 +38,33 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (checkName(newName) || newName === '') {
+    if (checkName(newName) && window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      const person = persons.find(person => person.name === newName)
+      const changedPerson = { ...person, number: newNumber }
+      noteService
+        .update(person.id, changedPerson)
+        .then(response => {
+          setPersons(persons.map(person => person.id !== changedPerson.id ? person : response.data))
+          setNewName('')
+          setNewNumber('')
+        })
+      return
+    }
+    if (checkName(newName)) {
       alert(`${newName} is already added to phonebook`)
       return 
     }
+    if (newName === '') {
+      alert(`Please enter a name`)
+      return
+    }
+
     if (newNumber === '') {
       alert(`Please enter a number`)
       return
     }
+
+    
 
     const personObject = {
       name: newName,
@@ -91,7 +110,9 @@ const App = () => {
       noteService
         .deletePerson(id)
         .then(response => {
+          console.log(response);
           setPersons(persons.filter(person => person.id !== id))
+          displayPersons()
         }
       )
     }

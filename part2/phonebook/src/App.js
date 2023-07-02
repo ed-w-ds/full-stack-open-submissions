@@ -83,6 +83,12 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        .catch(error => {
+          alert(
+            `the person '${person.name}' was already deleted from server`
+          )
+          setPersons(persons.filter(person => person.id !== changedPerson.id))
+        })
       return 
     }
     if (checkName(newName)) {
@@ -148,11 +154,9 @@ const App = () => {
           console.log(response);
           setPersons(persons.filter(person => person.id !== id))
           displayPersons()
-        }
-      )
+        })
     }
   }
-
 
   const displayPersons = () => {  
     const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(newSearch)) 

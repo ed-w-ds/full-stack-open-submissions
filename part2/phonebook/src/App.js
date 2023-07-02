@@ -50,10 +50,19 @@ const App = () => {
       id: persons.length + 1,
       number: newNumber
     }
+
     setPersons(persons.concat(personObject))
     setNewName('')
     setNewNumber('')
     console.log(persons)
+
+    axios 
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        console.log(response)
+      }
+    )
+    
   }
   const checkName = (name) => {
     // checks if there is a name in the persons array that matches the name given

@@ -31,10 +31,45 @@ const App = () => {
   //   { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
   //   { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   // ])
+  // <div className="success">Added {newName}</div>
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
+
+  const SuccessNotification = ({ message }) => {
+    const style = {
+      color: 'green',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10,
+      margin: 10
+    }
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }, [message])
+
+
+    if (message === null) {
+      return null
+    }
+    
+
+    return (
+      <div className="success" style={ style }>
+        {message}
+      </div>
+    )
+
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -48,7 +83,7 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-      return
+      return 
     }
     if (checkName(newName)) {
       alert(`${newName} is already added to phonebook`)
@@ -64,7 +99,7 @@ const App = () => {
       return
     }
 
-    
+    setSuccessMessage(`Added ${newName}`)
 
     const personObject = {
       name: newName,
@@ -128,6 +163,8 @@ const App = () => {
     <div>
 
       <h2>Phonebook</h2>
+
+      <SuccessNotification message={successMessage} />
 
       <Filter newSearch={newSearch} handleSearch={handleSearch}/>
 

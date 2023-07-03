@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ShowCountries from './components/ShowCountries'
+import ShowWeather from './components/ShowWeather'
 
 function App() {
 
@@ -22,6 +23,8 @@ function App() {
 
   const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(newSearch.toLowerCase()))
 
+  console.log(filteredCountries, "filteredCountries")
+
   const handleSearch = (event) => {
     console.log(event.target.value.toLowerCase());
     setNewSearch(event.target.value.toLowerCase())
@@ -32,6 +35,9 @@ function App() {
       <div>
         find countries <input value={newSearch} onChange={handleSearch} />
         <ShowCountries countries={filteredCountries} setSearchFilter={setNewSearch}/>
+      </div>
+      <div>
+        <ShowWeather country={filteredCountries[0]} />
       </div>
     </div>
   );

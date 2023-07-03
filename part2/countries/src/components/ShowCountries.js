@@ -1,3 +1,5 @@
+// import ShowWeather from './ShowWeather'
+
 const ShowCountries = ({ countries, newSearch }) => {
     if (newSearch === '') {
         return (
@@ -15,6 +17,7 @@ const ShowCountries = ({ countries, newSearch }) => {
         )
     }
     else if (countries.length === 1) {
+        console.log(countries[0], "countries[0]")
         return (
             <div>
                 <h1>{countries[0].name.common}</h1>
@@ -25,6 +28,7 @@ const ShowCountries = ({ countries, newSearch }) => {
                     {Object.values(countries[0].languages).map(language => <li key={language}>{language}</li>)}
                 </ul>
                 <img src={countries[0].flags.png} alt={countries[0].flags.alt}/>
+                {/* <ShowWeather country={countries[0]} /> */}
                 {/* <img src={countries[0].flags.svg} alt={countries[0].flags.alt}/> */}
             </div>
         )
@@ -44,7 +48,5 @@ const ShowCountries = ({ countries, newSearch }) => {
         )
     }
 }  
-
-
 
 export default ShowCountries

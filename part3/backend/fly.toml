@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for fso-phonebook-web-app on 2023-07-14T14:37:47+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "fso-phonebook-web-app"
+primary_region = "lhr"
+
+[env]
+  PORT = "3001"
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 3001
+  processes = ["app"]
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+

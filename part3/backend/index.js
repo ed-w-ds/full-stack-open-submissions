@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const { default: mongoose } = require('mongoose')
 
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)

@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const { default: mongoose } = require('mongoose')
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -21,25 +22,25 @@ app.use(requestLogger)
 app.use(express.static('build'))
 
 
-// let persons = [
-//   {
-//     name: "Arto Hellas",
-//     number: "040-123456",
-//     id: 1
-//   },
-//   {
+let persons = [
+  {
+    name: "Arto Hellas",
+    number: "040-123456",
+    id: 1
+  },
+  {
 
-//     name: "Ada Lovelace",
-//     number: "39-44-5323523",
-//     id: 2
-//   },
-//   {
+    name: "Ada Lovelace",
+    number: "39-44-5323523",
+    id: 2
+  },
+  {
 
-//     name: "Dan Abramov",
-//     number: "12-43-234345",
-//     id: 3
-//   }
-// ]
+    name: "Dan Abramov",
+    number: "12-43-234345",
+    id: 3
+  }
+]
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -107,8 +108,8 @@ app.use(unknownEndpoint)
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
-}
-)
+})
+
 
 
 

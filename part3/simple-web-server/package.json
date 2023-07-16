@@ -9,13 +9,15 @@
     "build:ui": "powershell Remove-Item -Recurse -Force build; cd ../../part2/frontend/; npm run build; Copy-Item -Recurse ../../part2/frontend/build ../../part3/simple-web-server/build",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "server": "json-server -p3001 --watch db.json"
   },
   "proxy": "http://localhost:3001",
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2"
   },
   "devDependencies": {

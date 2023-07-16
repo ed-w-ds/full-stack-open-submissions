@@ -2,8 +2,9 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const { default: mongoose } = require('mongoose')
+require('dotenv').config()
 
+const Phonebook = require('./models/phonebook')
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -22,91 +23,73 @@ app.use(express.json())
 app.use(requestLogger)
 app.use(express.static('build'))
 
-
-let persons = [
-  {
-    name: "Arto Hellas",
-    number: "040-123456",
-    id: 1
-  },
-  {
-
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-    id: 2
-  },
-  {
-
-    name: "Dan Abramov",
-    number: "12-43-234345",
-    id: 3
-  }
-]
-
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/persons', (request, response) => {
-  response.json(persons)
-}
-)
+let persons = []
 
-app.get('/info', (request, response) => {
-  const date = new Date()
-  const info = `<p>Phonebook has info for ${persons.length} people</p>
-  <p>${date}</p>`
-  response.send(info)
+app.get('/api/persons', (request, response) => {
+  Phonebook.find({}).then(phonebook => {
+    response.json(phonebook)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  console.log(id)
-  const person = persons.find(person => person.id === id)
-  console.log(person)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
-}
-)
+  Phonebook.findById(request.params.id).then(phonebook => {
+    response.json(phonebook)
+  })
+})
 
-app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  console.log(id)
-  persons = persons.filter(person => person.id !== id)
-  console.log(persons)
-  response.status(204).end()
-}
-)
+// app.get('/info', (request, response) => {
+//   const date = new Date()
+//   const info = `<p>Phonebook has info for ${Phonebook.length} people</p>
+//   <p>${date}</p>`
+//   response.send(info)
+// })
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  console.log(body)
-  if (!body.name) {
+  
+  if (body.name === undefined) {
     return response.status(400).json({
       error: 'name missing'
     })
   }
-  if (!body.number) {
+  if (body.number === undefined) {
     return response.status(400).json({
       error: 'number missing'
     })
   }
-  if (checkName(body.name)) {
-    return response.status(400).json({
-      error: 'name must be unique'
+  // if (persons.find(person => person.name === body.name)) {
+  //   return response.status(400).json({
+  //     error: 'name must be unique'
+  //   })
+  // }
+
+  const phonebook = new Phonebook({
+    name: body.name,
+    number: body.number,
+  })
+
+    phonebook.save().then(savedPerson => {
+      response.json(savedPerson)
     })
-  }
-  persons = persons.concat(person)
-  response.json(person)
-}
-)
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  persons = persons.filter(person => person.id !== id)
+
+  Phonebook.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+})
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

@@ -1,8 +1,8 @@
-GET  http://localhost:3001/api/notes/
-
-###
-
-DELETE  http://localhost:3001/api/notes/2
+POST http://localhost:3001/api/notes
 content-type: application/json
 
+{
+    "content": "Ensure that the everything still works",
+    "important": true
+}
 

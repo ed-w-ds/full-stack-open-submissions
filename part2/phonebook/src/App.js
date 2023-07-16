@@ -13,7 +13,7 @@ const App = () => {
   const hook = () => {
     console.log('effect')
     axios
-      .get('http://localhost:3001/persons')
+      .get('http://localhost:3001/api/persons')
       .then(response => {
         console.log('promise fulfilled')
         setPersons(response.data)
@@ -131,20 +131,28 @@ const App = () => {
   }
 
   const deletePerson = (event) => {
-    console.log("event target dawg ", event.target.id);
-    const id = Number(event.target.id)
+    event.preventDefault()
+    const id = event.target.id
+    console.log("id, dwase", id)
+    console.log("persons", persons)
     const person = persons.find(person => person.id === id)
-    console.log(person);
+    console.log("person", person)
+    console.log("person.name", person.name)
     if (window.confirm(`Delete ${person.name}?`)) {
       noteService
         .deletePerson(id)
         .then(response => {
-          console.log(response);
           setPersons(persons.filter(person => person.id !== id))
-          displayPersons()
         })
     }
   }
+  //   if (window.confirm(`Delete ${person.name}?`)) {
+  //     noteService
+  //       .deletePerson(id)
+  //       setPersons(persons)
+  //   }
+  // }
+
 
   const displayPersons = () => {  
     const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(newSearch)) 

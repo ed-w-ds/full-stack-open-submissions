@@ -86,6 +86,7 @@ app.put('/api/notes/:id', (request, response, next) => {
   }
 
   // new: true - the event handler receives the updated object as its parameter
+  // note is a regular JS object, not a mongoose object
   Note.findByIdAndUpdate(request.params.id, note, { new: true })
     .then(updatedNote => {
       response.json(updatedNote)

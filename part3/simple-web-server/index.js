@@ -18,9 +18,14 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(cors())
+app.use(express.static('build'))
+// json middleware has to be before the requestLogger and befre the routes
+// because then request.body would be empty/undefined
+// express.json is a built-in middleware function in Express. 
+// It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json())
 app.use(requestLogger)
-app.use(express.static('build'))
+
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -34,9 +39,22 @@ app.get('/api/notes', (req, res) => {
   })
 })
 
-app.get('/api/notes/:id', (request, response) => {
-  Note.findById(request.params.id).then(note => {
-    response.json(note)
+app.get('/api/notes/:id', (request, response, next) => {
+  Note.findById(request.params.id)
+  .then(note => {
+    if (note) {
+      response.json(note)
+    }
+    else {
+      response.status(404).end()
+    }
+  })
+  .catch(error => {
+    // 500 - internal server error
+    // 400 - bad request
+    // mongoose error handling
+    // response.status(400).send({ error: 'malformatted id' })
+    next(error)
   })
 })
 
@@ -59,14 +77,48 @@ app.post('/api/notes', (request, response) => {
   })
 })
 
-app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
+app.put('/api/notes/:id', (request, response, next) => {
+  const body = request.body
 
-  response.status(204).end()
+  const note = {
+    content: body.content,
+    important: body.important,
+  }
+
+  // new: true - the event handler receives the updated object as its parameter
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
 })
 
+app.delete('/api/notes/:id', (request, response) => {
+  // findByIdAndRemove is provided by mongoose
+  Note.findByIdAndRemove(request.params.id)
+    .then(result => { // result is the deleted note
+      // .end() comes from the Node core
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+  // HTTP 204 No Content success status response code indicates that the request has succeeded,
+  // but that the client doesn't need to go away from its current page.
+})
+
+// handler of requests with unknown endpoint
 app.use(unknownEndpoint)
+
+// errorHandler has to be the last loaded middleware
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.statis(400).send({ error: 'malformatted id' })
+  }
+  next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

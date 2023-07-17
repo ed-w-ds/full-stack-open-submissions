@@ -41,12 +41,12 @@ app.get('/api/persons/:id', (request, response) => {
   })
 })
 
-// app.get('/info', (request, response) => {
-//   const date = new Date()
-//   const info = `<p>Phonebook has info for ${Phonebook.length} people</p>
-//   <p>${date}</p>`
-//   response.send(info)
-// })
+app.get('/info', (request, response) => {
+  const date = new Date()
+  const info = `<p>Phonebook has info for ${Phonebook.length} people</p>
+  <p>${date}</p>`
+  response.send(info)
+})
 
 app.post('/api/persons', (request, response) => {
   const body = request.body

@@ -1,4 +1,5 @@
 const express = require('express')
+
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
@@ -22,11 +23,10 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
+  } if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
-
-  next(error)
+  return next(error)
 }
 
 app.use(cors())
@@ -35,13 +35,13 @@ app.use(requestLogger)
 app.use(express.static('build'))
 
 app.get('/api/notes', (request, response) => {
-  Note.find({}).then(notes => {
+  Note.find({}).then((notes) => {
     response.json(notes)
   })
 })
 
 app.post('/api/notes', (request, response, next) => {
-  const body = request.body
+  const { body } = request
 
   const note = new Note({
     content: body.content,
@@ -49,30 +49,30 @@ app.post('/api/notes', (request, response, next) => {
   })
 
   note.save()
-    .then(savedNote => {
+    .then((savedNote) => {
       response.json(savedNote)
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
 app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
-    .then(note => {
+    .then((note) => {
       if (note) {
         response.json(note)
       } else {
         response.status(404).end()
       }
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
@@ -81,24 +81,21 @@ app.put('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndUpdate(
     request.params.id,
     { content, important },
-    { new: true, runValidators: true, context: 'query' }
+    { new: true, runValidators: true, context: 'query' },
   )
-    .then(updatedNote => {
+    .then((updatedNote) => {
       response.json(updatedNote)
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
-const PORT = process.env.PORT
+const { PORT } = process.env
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
-
-
 
 // const express = require('express')
 // const app = express()
@@ -123,7 +120,7 @@ app.listen(PORT, () => {
 // app.use(express.static('build'))
 // // json middleware has to be before the requestLogger and befre the routes
 // // because then request.body would be empty/undefined
-// // express.json is a built-in middleware function in Express. 
+// // express.json is a built-in middleware function in Express.
 // // It parses incoming requests with JSON payloads and is based on body-parser.
 // app.use(express.json())
 // app.use(requestLogger)
@@ -218,10 +215,6 @@ app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`)
 // })
 
-
-
-
-
 // //simple web server
 // const repl = require('repl')
 
@@ -285,7 +278,6 @@ app.listen(PORT, () => {
 //       : 0
 //     return maxId + 1
 //   }
-
 
 //   app.post('/api/notes', (request, response) => {
 //     const body = request.body

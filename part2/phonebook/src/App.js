@@ -73,6 +73,7 @@ const App = () => {
         })
         .catch(error => {
           alert(
+            console.log(error)
             `the person '${person.name}' was already deleted from server`
           )
           setPersons(persons.filter(person => person.id !== changedPerson.id))

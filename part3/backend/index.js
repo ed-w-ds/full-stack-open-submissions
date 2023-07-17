@@ -92,11 +92,14 @@ app.post('/api/persons', (request, response) => {
 app.put('/api/persons/:id', (request, response, next) => {
   const body = request.body
 
+
   const phonebook = {
     name: body.name,
     number: body.number,
   }
 
+  console.log(phonebook)
+  console.log(request.params.id)
   // new: true - the updated phonebook is returned by the method
   Phonebook.findByIdAndUpdate(request.params.id, phonebook, { new: true })
   // the response is the updated phonebook

@@ -79,10 +79,10 @@ app.put('/api/notes/:id', (request, response, next) => {
   const { content, important } = request.body
 
   Note.findByIdAndUpdate(
-    request.params.id, 
+    request.params.id,
     { content, important },
     { new: true, runValidators: true, context: 'query' }
-  ) 
+  )
     .then(updatedNote => {
       response.json(updatedNote)
     })
@@ -173,8 +173,8 @@ app.listen(PORT, () => {
 //   // new: true - the event handler receives the updated object as its parameter
 //   // note is a regular JS object, not a mongoose object
 //   Note.findByIdAndUpdate(
-//     request.params.id, 
-//     { content, important }, 
+//     request.params.id,
+//     { content, important },
 //     { new: true, runValidators: true, context: 'query'})
 //     .then(updatedNote => {
 //       response.json(updatedNote)
@@ -231,7 +231,7 @@ app.listen(PORT, () => {
 //   // const app = http.createServer((request, response) => {
 //   //   response.writeHead(200, { 'Content-Type': 'application/json' })
 //   //   response.end(JSON.stringify(notes))
-//   // }) 
+//   // })
 //   // and this above replaced this:
 // // const app = http.createServer((request, response) => {
 // //     response.writeHead(200, { 'Content-Type': 'text/plain' })
@@ -255,7 +255,7 @@ app.listen(PORT, () => {
 //       important: true
 //     }
 //   ]
-  
+
 //   app.get('/', (request, response) => {
 //     response.send('<h1>Hello World!</h1>')
 //   })
@@ -279,7 +279,7 @@ app.listen(PORT, () => {
 //     }
 //   })
 
-//   const generateId = () => { 
+//   const generateId = () => {
 //     const maxId = notes.length > 0
 //       ? Math.max(...notes.map(n => n.id))
 //       : 0
@@ -291,8 +291,8 @@ app.listen(PORT, () => {
 //     const body = request.body
 
 //     if (!body.content) {
-//       return response.status(400).json({ 
-//         error: 'content missing' 
+//       return response.status(400).json({
+//         error: 'content missing'
 //       })
 //     }
 

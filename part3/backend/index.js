@@ -86,7 +86,7 @@ app.post('/api/persons', (request, response) => {
     phonebook.save().then(savedPerson => {
       response.json(savedPerson)
     })
-    
+
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -97,7 +97,9 @@ app.put('/api/persons/:id', (request, response, next) => {
     number: body.number,
   }
 
+  // new: true - the updated phonebook is returned by the method
   Phonebook.findByIdAndUpdate(request.params.id, phonebook, { new: true })
+  // the response is the updated phonebook
     .then(updatedPhonebook => {
       response.json(updatedPhonebook)
     })

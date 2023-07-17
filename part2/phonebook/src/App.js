@@ -6,6 +6,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 import noteService from './services/notes'
+import { set } from 'mongoose'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -27,6 +28,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const SuccessNotification = ({ message }) => {
     const style = {
@@ -39,21 +41,51 @@ const App = () => {
       marginBottom: 10,
       margin: 10
     }
-
     useEffect(() => {
       const timer = setTimeout(() => {
         setSuccessMessage(null)
       }, 3000)
       return () => clearTimeout(timer)
     }, [message])
-
-
+  
     if (message === null) {
       return null
     }
     
     return (
       <div className="success" style={ style }>
+        {message}
+      </div>
+    )
+  }
+
+  
+  const ErrorNotification = ({ message }) => {
+
+    const style = {
+      color: 'red',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10,
+      margin: 10
+    }
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }, [message])
+
+    if (message === null) {
+      return null
+    }
+
+    return (
+      <div className="error" style={ style }>
         {message}
       </div>
     )
@@ -80,6 +112,7 @@ const App = () => {
         })
       return 
     }
+
     if (checkName(newName)) {
       alert(`${newName} is already added to phonebook`)
       return 
@@ -94,8 +127,6 @@ const App = () => {
       return
     }
 
-    setSuccessMessage(`Added ${newName}`)
-
     const personObject = {
       name: newName,
       id: persons.length + 1,
@@ -104,12 +135,20 @@ const App = () => {
 
     noteService 
       .create(personObject)
+      // response is the new person object
       .then(response => {
+        setSuccessMessage(`Added ${newName}`)
         setPersons(persons.concat(response.data))
         setNewName('')
         setNewNumber('')
-      }
-    )
+      })
+      .catch(error => {
+        console.log("err", error)
+        console.log("err.res", error.response)
+        console.log(error.response.data)
+        console.log(error.response.data.error)
+        setErrorMessage(error.response.data.error)
+      })
 
   }
   const checkName = (name) => {
@@ -166,6 +205,8 @@ const App = () => {
       <h2>Phonebook</h2>
 
       <SuccessNotification message={successMessage} />
+
+      <ErrorNotification message={ errorMessage } />
 
       <Filter newSearch={newSearch} handleSearch={handleSearch}/>
 

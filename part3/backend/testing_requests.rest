@@ -2,7 +2,7 @@ GET  http://localhost:3001/api/persons/
 
 ###
 
-GET http://localhost:3001/api/persons/64b3fc50eaba67381214bc3
+GET http://localhost:3001/api/persons/64b2a199fc4ae099c6a2ffa6
 
 ###
 
@@ -15,7 +15,7 @@ POST  http://localhost:3001/api/persons/
 content-type: application/json
 
 {
-  "name": "Arto Hellas",
+  "name": "A",
   "number": "040-123456"
 }
 

@@ -17,114 +17,210 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error)
+}
+
 app.use(cors())
-app.use(express.static('build'))
-// json middleware has to be before the requestLogger and befre the routes
-// because then request.body would be empty/undefined
-// express.json is a built-in middleware function in Express. 
-// It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json())
 app.use(requestLogger)
+app.use(express.static('build'))
 
-
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
-
-let notes = []
-
-app.get('/api/notes', (req, res) => {
+app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
-    res.json(notes)
+    response.json(notes)
   })
 })
 
-app.get('/api/notes/:id', (request, response, next) => {
-  Note.findById(request.params.id)
-  .then(note => {
-    if (note) {
-      response.json(note)
-    }
-    else {
-      response.status(404).end()
-    }
-  })
-  .catch(error => {
-    // 500 - internal server error
-    // 400 - bad request
-    // mongoose error handling
-    // response.status(400).send({ error: 'malformatted id' })
-    next(error)
-  })
-})
-
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
-
-  if (body.content === undefined) {
-    return response.status(400).json({
-      error: 'content missing'
-    })
-  }
 
   const note = new Note({
     content: body.content,
     important: body.important || false,
   })
 
-  note.save().then(savedNote => {
-    response.json(savedNote)
-  })
+  note.save()
+    .then(savedNote => {
+      response.json(savedNote)
+    })
+    .catch(error => next(error))
+})
+
+app.get('/api/notes/:id', (request, response, next) => {
+  Note.findById(request.params.id)
+    .then(note => {
+      if (note) {
+        response.json(note)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
+})
+
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
-  const body = request.body
+  const { content, important } = request.body
 
-  const note = {
-    content: body.content,
-    important: body.important,
-  }
-
-  // new: true - the event handler receives the updated object as its parameter
-  // note is a regular JS object, not a mongoose object
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  Note.findByIdAndUpdate(
+    request.params.id, 
+    { content, important },
+    { new: true, runValidators: true, context: 'query' }
+  ) 
     .then(updatedNote => {
       response.json(updatedNote)
     })
     .catch(error => next(error))
 })
 
-app.delete('/api/notes/:id', (request, response) => {
-  // findByIdAndRemove is provided by mongoose
-  Note.findByIdAndRemove(request.params.id)
-    .then(result => { // result is the deleted note
-      // .end() comes from the Node core
-      response.status(204).end()
-    })
-    .catch(error => next(error))
-  // HTTP 204 No Content success status response code indicates that the request has succeeded,
-  // but that the client doesn't need to go away from its current page.
-})
-
-// handler of requests with unknown endpoint
 app.use(unknownEndpoint)
-
-// errorHandler has to be the last loaded middleware
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
-
-  if (error.name === 'CastError') {
-    return response.statis(400).send({ error: 'malformatted id' })
-  }
-  next(error)
-}
-
 app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+
+
+
+// const express = require('express')
+// const app = express()
+// const cors = require('cors')
+// require('dotenv').config()
+
+// const Note = require('./models/note')
+
+// const requestLogger = (request, response, next) => {
+//   console.log('Method:', request.method)
+//   console.log('Path:  ', request.path)
+//   console.log('Body:  ', request.body)
+//   console.log('---')
+//   next()
+// }
+
+// const unknownEndpoint = (request, response) => {
+//   response.status(404).send({ error: 'unknown endpoint' })
+// }
+
+// app.use(cors())
+// app.use(express.static('build'))
+// // json middleware has to be before the requestLogger and befre the routes
+// // because then request.body would be empty/undefined
+// // express.json is a built-in middleware function in Express. 
+// // It parses incoming requests with JSON payloads and is based on body-parser.
+// app.use(express.json())
+// app.use(requestLogger)
+
+// app.get('/api/notes', (req, res) => {
+//   Note.find({}).then(notes => {
+//     res.json(notes)
+//   })
+// })
+
+// app.get('/api/notes/:id', (request, response, next) => {
+//   Note.findById(request.params.id)
+//   .then(note => {
+//     if (note) {
+//       response.json(note)
+//     }
+//     else {
+//       response.status(404).end()
+//     }
+//   })
+//   .catch(error => {
+//     // 500 - internal server error
+//     // 400 - bad request
+//     // mongoose error handling
+//     // response.status(400).send({ error: 'malformatted id' })
+//     next(error)
+//   })
+// })
+
+// app.post('/api/notes', (request, response, next) => {
+//   const body = request.body
+
+//   const note = new Note({
+//     content: body.content,
+//     important: body.important || false,
+//   })
+
+//   note.save().then(savedNote => {
+//     response.json(savedNote)
+//   })
+//   .catch(error => next(error))
+// })
+
+// app.put('/api/notes/:id', (request, response, next) => {
+//   const { content, important } = request.body
+
+//   // new: true - the event handler receives the updated object as its parameter
+//   // note is a regular JS object, not a mongoose object
+//   Note.findByIdAndUpdate(
+//     request.params.id, 
+//     { content, important }, 
+//     { new: true, runValidators: true, context: 'query'})
+//     .then(updatedNote => {
+//       response.json(updatedNote)
+//     })
+//     .catch(error => next(error))
+// })
+
+// app.delete('/api/notes/:id', (request, response, next) => {
+//   // findByIdAndRemove is provided by mongoose
+//   Note.findByIdAndRemove(request.params.id)
+//     .then(result => { // result is the deleted note
+//       // .end() comes from the Node core
+//       response.status(204).end()
+//     })
+//     .catch(error => next(error))
+//   // HTTP 204 No Content success status response code indicates that the request has succeeded,
+//   // but that the client doesn't need to go away from its current page.
+// })
+
+// // handler of requests with unknown endpoint
+// app.use(unknownEndpoint)
+
+// // errorHandler has to be the last loaded middleware
+// const errorHandler = (error, request, response, next) => {
+//   console.error(error.message)
+
+//   if (error.name === 'CastError') {
+//     return response.status(400).send({ error: 'malformatted id' })
+//   }
+//   else if (error.name === 'ValidationError') {
+//     return response.status(400).json({ error: error.message })
+//   }
+
+//   next(error)
+// }
+
+// app.use(errorHandler)
+
+// const PORT = process.env.PORT
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`)
+// })
+
+
+
+
 
 // //simple web server
 // const repl = require('repl')

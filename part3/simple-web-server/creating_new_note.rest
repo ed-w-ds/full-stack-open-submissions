@@ -2,7 +2,7 @@ POST http://localhost:3001/api/notes
 content-type: application/json
 
 {
-    "content": "Ensure that the everything still works!!!",
+    "content": "lol",
     "important": true
 }
 
@@ -16,7 +16,7 @@ GET http://localhost:3001/api/notes/5f0b4a3b1c9d440000a3b0a0
 
 ###
 
-DELETE http://localhost:3001/api/notes/64b52bc55fc9ace3b5649cbb
+DELETE http://localhost:3001/api/notes/64b5432b84f9d743a6334dfa
 
 ###
 
@@ -24,6 +24,6 @@ PUT http://localhost:3001/api/notes/64b2cffc1d512056db306fe2
 content-type: application/json
 
 {
-    "content": "Ensure that the everything still works!?",
+    "content": "!Ensure that the everything still works!?",
     "important": true
 }

@@ -6,7 +6,6 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 import noteService from './services/notes'
-import { set } from 'mongoose'
 
 const App = () => {
   const [persons, setPersons] = useState([])

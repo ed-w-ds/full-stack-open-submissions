@@ -4,7 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: 'airbnb-base',
+  extends: 'airbnb',
   overrides: [
     {
       env: {
@@ -22,6 +22,8 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'no-console': 0,
     eqeqeq: 'error',
+    'consistent-return': 'off',
   },
 };

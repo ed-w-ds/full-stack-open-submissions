@@ -132,7 +132,7 @@ const errorHandler = (error, request, response, next) => {
   else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   }
-  else {
+  else if (error.name === 'MongoError') {
     return response.status(500).json({ error: error.message })
   }
 
@@ -145,8 +145,3 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
-
-
-
-
-

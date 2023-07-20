@@ -7,10 +7,12 @@ import './index.css';
 
 import axios from 'axios'
 
-axios.get('http://localhost:3001/api/persons').then(response => {
+axios
+  .get('http://localhost:3001/api/persons')
+  .then(response => {
   const persons = response.data
   console.log(persons)
-})
+  })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

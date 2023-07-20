@@ -10,19 +10,14 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
   rules: {
-    indent: [
-      'error',
-      2,
-    ],
     'linebreak-style': [
       'error',
       'windows',
+    ],
+    indent: [
+      'error',
+      2,
     ],
     quotes: [
       'error',
@@ -33,6 +28,7 @@ module.exports = {
       'never',
     ],
     eqeqeq: 'error',
+    'consistent-return': 'off',
     'no-trailing-spaces': 'error',
     'object-curly-spacing': [
       'error', 'always',

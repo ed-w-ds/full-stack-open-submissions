@@ -6,6 +6,7 @@ require('dotenv').config()
 
 const Phonebook = require('./models/phonebook')
 
+// middleware
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -16,6 +17,24 @@ const requestLogger = (request, response, next) => {
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
+}
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  // if the error is cast error, then it is a bad request
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+  // if the error is validation error, then it is a bad request
+  else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+  else if (error.name === 'MongoError') {
+    return response.status(500).json({ error: error.message })
+  }
+
+  next(error)
 }
 
 app.use(cors())
@@ -120,24 +139,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
 
 app.use(unknownEndpoint)
-
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
-
-  // if the error is cast error, then it is a bad request
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  }
-  // if the error is validation error, then it is a bad request
-  else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message })
-  }
-  else if (error.name === 'MongoError') {
-    return response.status(500).json({ error: error.message })
-  }
-
-  next(error)
-}
 
 app.use(errorHandler)
 

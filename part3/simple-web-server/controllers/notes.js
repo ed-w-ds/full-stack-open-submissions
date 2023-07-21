@@ -31,7 +31,8 @@ notesRouter.post('/', (request, response, next) => {
     important: body.important || false,
   })
 
-  note.save()
+  note
+    .save()
     .then(savedNote => {
       response.json(savedNote)
     })

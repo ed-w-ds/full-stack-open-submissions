@@ -3,12 +3,18 @@ module.exports = {
     node: true,
     commonjs: true,
     es2021: true,
+    jest: true,
   },
   extends: 'airbnb',
   overrides: [
   ],
   parserOptions: {
     ecmaVersion: 'latest',
+  },
+  settings: {
+    react: {
+      version: 'none',
+    },
   },
   rules: {
     'linebreak-style': [

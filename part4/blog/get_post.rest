@@ -7,7 +7,7 @@ content-type: application/json
     
 {   
     "title": "test",
-    "author": "ed-w-ds",
+    "author": "ed-rad",
     "url": "https://www.google.com",
     "likes": 12
 }

@@ -2,5 +2,5 @@
 // a bug with Mongoose version 6.x
 
 module.exports = () => {
-    process.exit(0)
+  process.exit(0)
 }

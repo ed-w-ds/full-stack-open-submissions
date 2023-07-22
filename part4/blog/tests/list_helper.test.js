@@ -1,7 +1,6 @@
 const listHelper = require('../utils/list_helper')
 
 // can use test.only to test only one of them
-
 test('dummy returns one', () => {
   const blogs = []
 
@@ -81,16 +80,41 @@ describe('return blog with most likes', () => {
   ]
 
   test('the blog with most likes', () => {
-    const result = listHelper.favPost(blogs)
+  const result = listHelper.favPost(blogs)
     
+    expect(result).toEqual({
+      _id: "5a422aa71b54a676234d17f8",
+      title: "Go To Statement Considered Harmful",
+      author: "Edsger W. Dijkstra",
+      url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+      likes: 5,
+      __v: 0
+    })
+  })
+})
+
+describe('return author with most blogs', () => {
+  const blogs = [
+    {
+      author: "Robert C. Martin",
+      blogs: 3
+    },
+    {
+      author: "Edsger W. Dijkstra",
+      blogs: 2
+    },
+    {
+      author: "Fyodor Dostoevsky",
+      blogs: 1
+    }
+  ]
+
+  test('the author with most blogs', () => {
+    const result = listHelper.mostBlogs(blogs)
     expect(result).toEqual(
       {
-        _id: "5a422aa71b54a676234d17f8",
-        title: "Go To Statement Considered Harmful",
-        author: "Edsger W. Dijkstra",
-        url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-        likes: 5,
-        __v: 0
+        author: "Robert C. Martin",
+        blogs: 3
       }
     )
   })

@@ -21,18 +21,21 @@ const favPost = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    return _.maxBy(blogs, 'blogs')
+    return _
+        .chain(blogs)
+        .countBy('author')
+        .map((blogs, author) => (
+            { author, blogs }
+        ))
+        .maxBy('blogs')
+        .value()
 }
-// const mostBlogs = (blogs) => {
-//     return _.maxBy(blogs, function(blogs) {
-//         return blogs.blogs
-//     })
-// }
+
 
 
 module.exports = {
     dummy,
     totalLikes,
     favPost,
-    mostBlogs
+    mostBlogs,
 }

@@ -12,8 +12,6 @@ const average = (array) => {
   return array.reduce(reducer, 0) / array.length
 }
 
-
-  
   module.exports = {
     reverse,
     average,

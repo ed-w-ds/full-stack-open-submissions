@@ -8,6 +8,7 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 const { describe } = require('node:test')
+const { error } = require('console')
 
 beforeEach(async () => {
     await Blog.deleteMany({})

@@ -7,6 +7,7 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const { describe } = require('node:test')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -32,7 +33,7 @@ test('unique identifier property of the blog posts is named id', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
-test('a valid blog can be added', async () => {
+describe('addition of a new blog', () => {
     const newBlog = {
         title: 'Crime and Punishment',
         author: 'Fyodor Dostoevsky',
@@ -40,29 +41,35 @@ test('a valid blog can be added', async () => {
         likes: 10
     }
 
-    // check if the blog is added to the database
+    test('a valid blog can be added', async () => {
+        // check if the blog is added to the database
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201) // 201 means Created
+            .expect('Content-Type', /application\/json/)
+            // console.log('newBlog', newBlog)
+        // verify that the number of blogs have increased by one
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+    })
+})
+
+test('if the likes property is missing from the request, it will default to the value 0', async () => {
+    const newBlogNoLikes = {
+        title: 'Crime and Punishment',
+        author: 'Fyodor Dostoevsky',
+        url: 'https://en.wikipedia.org/wiki/Crime_and_Punishment',
+    }
+
     await api
         .post('/api/blogs')
-        .send(newBlog)
+        .send(newBlogNoLikes)
         .expect(201) // 201 means Created
         .expect('Content-Type', /application\/json/)
-        // console.log('newBlog', newBlog)
-    
-    // verify that the number of blogs have increased by one
+        
     const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
-    // verify that the title of the new blog is in the list of blogs
-    const titles = blogsAtEnd.map(b => b.title)
-    expect(titles).toContain('Crime and Punishment')
-    // verify that the author of the new blog is in the list of blogs
-    const authors = blogsAtEnd.map(b => b.author)
-    expect(authors).toContain('Fyodor Dostoevsky')
-    // verify that the url of the new blog is in the list of blogs
-    const urls = blogsAtEnd.map(b => b.url)
-    expect(urls).toContain('https://en.wikipedia.org/wiki/Crime_and_Punishment')
-    // verify that the likes of the new blog is in the list of blogs
-    const likes = blogsAtEnd.map(b => b.likes)
-    expect(likes).toContain(10)
+    expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
 })
 
 afterAll(() => {

@@ -85,6 +85,22 @@ test('if the title and url properties are missing from the request data, the bac
         .expect(400) // bad request
 })
 
+test('deletion of a blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+    console.log('blogToDelete', blogToDelete)
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    const contents = blogsAtEnd.map(r => r.title)
+    expect(contents).not.toContain(blogToDelete.title)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })

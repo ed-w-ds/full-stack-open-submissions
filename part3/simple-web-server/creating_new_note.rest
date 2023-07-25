@@ -19,11 +19,11 @@ GET http://localhost:3001/api/notes
 
 POST http://localhost:3001/api/notes
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyb290IiwiaWQiOiI2NGJmZjNiMTViYmNhOTdkNGI1ODhiYmIiLCJpYXQiOjE2OTAzMDY1MjYsImV4cCI6MTY5MDMxMDEyNn0.eTUuzd9Iss9AGSxgOrQChjy7eca7VfEQCfIJzRm26B0
 
 {
-    "content": "this is my sixth note",
-    "important": false,
-    "userId": "64bff3b15bbca97d4b588bbb"
+    "content": "this is my seventh note",
+    "important": false
 }
 
 ###
@@ -42,4 +42,14 @@ content-type: application/json
 {
     "content": "!Ensure that the everything still works!?",
     "important": true
+}
+
+###
+
+post http://localhost:3001/api/login
+content-type: application/json
+
+{
+    "username": "superoot",
+    "password": "salained"
 }

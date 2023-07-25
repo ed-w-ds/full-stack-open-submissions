@@ -27,11 +27,18 @@ notesRouter.post('/', async (request, response) => {
 
   const user = await User.findById(body.userId)
 
+  if (!body.content) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
   const note = new Note({
     content: body.content,
     important: body.important || false,
     user: user.id,
   })
+
   // replace the promise chain with async/await
   const savedNote = await note.save()
   user.notes = user.notes.concat(savedNote._id)

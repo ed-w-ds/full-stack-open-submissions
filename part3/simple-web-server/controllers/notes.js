@@ -5,6 +5,8 @@ const notesRouter = require('express').Router()
 const Note = require('../models/note')
 const User = require('../models/user')
 
+// if the app has multiple interfaces requiring identical middleware, 
+// it is a good idea to extract them into their own module
 const jwt = require('jsonwebtoken')
 
 notesRouter.get('/', async (request, response) => {

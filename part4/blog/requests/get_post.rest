@@ -1,0 +1,29 @@
+GET http://localhost:3001/api/blogs
+
+###
+
+POST http://localhost:3001/api/blogs
+content-type: application/json
+    
+{   
+    "title": "test",
+    "author": "ed-rad",
+    "url": "https://www.google.com",
+    "likes": 12
+}
+
+###
+
+GET http://localhost:3001/api/users
+content-type: application/json
+
+###
+
+POST http://localhost:3001/api/users
+content-type: application/json
+
+{
+    "username": "ed-rad",
+    "name": "Ed Rad",
+    "password": "test"
+}

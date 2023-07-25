@@ -1,14 +1,30 @@
-POST http://localhost:3001/api/notes
+POST http://localhost:3001/api/users
 content-type: application/json
 
 {
-    "content": "lol",
-    "important": true
+    "username": "superoot",
+    "name": "Superuser",
+    "password": "salained"
 }
 
 ###
 
+GET http://localhost:3001/api/users
+
+###
+
 GET http://localhost:3001/api/notes
+
+###
+
+POST http://localhost:3001/api/notes
+content-type: application/json
+
+{
+    "content": "this is my second note",
+    "important": true,
+    "userId": "64bfedebdb5b19a7a46825ee"
+}
 
 ###
 

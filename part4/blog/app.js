@@ -8,6 +8,7 @@ const config = require('./utils/config')
 const app = express()
 const blogsRouter = require('./controllers/blogs.js')
 const usersRouter = require('./controllers/users.js')
+const loginRouter = require('./controllers/login.js')
 
 mongoose.set('strictQuery', false)
 
@@ -25,6 +26,7 @@ app.use(express.json())
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 module.exports = app
 

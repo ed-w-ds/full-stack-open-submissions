@@ -4,14 +4,13 @@ GET http://localhost:3001/api/blogs
 
 POST http://localhost:3001/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzc0MTU0LCJleHAiOjE2OTAzNzc3NTR9.u54wT6QaCkg3GKyhPTzUfgTKuIds0dfTaqW7YeosYes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzc4MzczLCJleHAiOjE2OTAzODE5NzN9.YOQmiYSuE5ocGQ5NT_jtBRQxgXzROaJxwnCr2skN73Q
 
 {   
-    "title": "Tenth Blog",
-    "author": "Check The User",
+    "title": "This is ed-rad's blog",
+    "author": "ed-rad",
     "url": "https://www.google..co.uk",
-    "likes": 45,
-    "user": "64c0ee97390b08e48521ba8a"
+    "likes": 50
 }
 
 ###
@@ -40,3 +39,7 @@ content-type: application/json
     "username": "ed-rad",
     "password": "test"
 }
+
+### 
+DELETE http://localhost:3001/api/blogs/64c120fb4f981b9b651d6951
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzc4NTU5LCJleHAiOjE2OTAzODIxNTl9.W7ZHhAt1ClBul6lAKxCjGFXG9rO2l5B1CykWRH0aGzk

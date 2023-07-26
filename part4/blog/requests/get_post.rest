@@ -4,10 +4,10 @@ GET http://localhost:3001/api/blogs
 
 POST http://localhost:3001/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDM3MzkwNCwiZXhwIjoxNjkwMzc3NTA0fQ.LjPkTbTAWbA96lesDks6-kDgoRh4Zrt3EeFaoSABNUU
-    
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzc0MTU0LCJleHAiOjE2OTAzNzc3NTR9.u54wT6QaCkg3GKyhPTzUfgTKuIds0dfTaqW7YeosYes
+
 {   
-    "title": "The Eigth blog post",
+    "title": "Tenth Blog",
     "author": "Check The User",
     "url": "https://www.google..co.uk",
     "likes": 45,
@@ -31,7 +31,6 @@ content-type: application/json
 }
 
 ### 
-DELETE http://localhost:3001/api/blogs/
 
 ###
 POST http://localhost:3001/api/login

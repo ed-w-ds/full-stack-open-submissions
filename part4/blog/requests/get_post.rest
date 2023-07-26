@@ -4,10 +4,10 @@ GET http://localhost:3001/api/blogs
 
 POST http://localhost:3001/api/blogs
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzc4MzczLCJleHAiOjE2OTAzODE5NzN9.YOQmiYSuE5ocGQ5NT_jtBRQxgXzROaJxwnCr2skN73Q
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzk0MDY0LCJleHAiOjE2OTAzOTc2NjR9.KJ4KBibQeu7YcYPYXbP3RWfQhmkYjKU2wOH68eJ12_Q
 
 {   
-    "title": "This is ed-rad's blog",
+    "title": "middleware test",
     "author": "ed-rad",
     "url": "https://www.google..co.uk",
     "likes": 50
@@ -41,5 +41,5 @@ content-type: application/json
 }
 
 ### 
-DELETE http://localhost:3001/api/blogs/64c120fb4f981b9b651d6951
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzc4NTU5LCJleHAiOjE2OTAzODIxNTl9.W7ZHhAt1ClBul6lAKxCjGFXG9rO2l5B1CykWRH0aGzk
+DELETE http://localhost:3001/api/blogs/64c14f48923485c26ce213c8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzkzMTEzLCJleHAiOjE2OTAzOTY3MTN9.E1GakDCp6ze5zV7PcfCV9G7w4n06HYNFkDz5UpvaYUU

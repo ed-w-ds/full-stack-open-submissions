@@ -6,10 +6,11 @@ POST http://localhost:3001/api/blogs
 content-type: application/json
     
 {   
-    "title": "test",
-    "author": "ed-rad",
-    "url": "https://www.google.com",
-    "likes": 12
+    "title": "The Third blog post",
+    "author": "Check The User",
+    "url": "https://www.google..co.uk",
+    "likes": 45,
+    "user": "64c0ee97390b08e48521ba8a"
 }
 
 ###
@@ -23,7 +24,10 @@ POST http://localhost:3001/api/users
 content-type: application/json
 
 {
-    "username": "ed-rad",
-    "name": "Ed Rad",
-    "password": "test"
+    "username": "newUser",
+    "name": "theuser2",
+    "password": "test123"
 }
+
+### 
+DELETE http://localhost:3001/api/blogs/

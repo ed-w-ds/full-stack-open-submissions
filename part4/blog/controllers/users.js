@@ -23,6 +23,26 @@ usersRouter.post('/', async (request, response) => {
         passwordHash,
     })
 
+    if (!username || !password) {
+        return response.status(400).json({
+            error: 'username or password missing'
+        })
+    }
+
+    // is required as the password received by the backend is the hashed password
+    if (password.length < 3) {
+        return response.status(400).json({
+            error: 'password must be at least 3 characters long'
+        })
+    }
+
+    // not required as it is handled by mongoose in the schema
+    if (username.length < 3) {
+        return response.status(400).json({
+            error: 'username must be at least 3 characters long'
+        })
+    }
+
     const savedUser = await user.save()
     response.status(201).json(savedUser)
 })

@@ -123,6 +123,44 @@ test('updating a blog', async () => {
     expect(contents).toContain(updatedBlog.title)
 })
 
+describe('ensure invalid users are not created'), () => {
+
+    test('invalid username not added', async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const newUser = {
+            username: '<3',
+            name: 'John Deers',
+            password: '122344'
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
+    test('invalid password not added', async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const newUser = {
+            username: 'Dostoevsky',
+            name: 'Fyodor Dostoevsky',
+            password: '12'
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+
+        const usersAtEnd = await helper.usersInDb()
+        expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+}
 
 afterAll(() => {
     mongoose.connection.close()

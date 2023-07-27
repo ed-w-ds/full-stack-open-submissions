@@ -8,7 +8,7 @@
     "dev": "SET NODE_ENV=development & nodemon index.js",
     "test": "SET NODE_ENV=test & jest --verbose --runInBand"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3003",
   "author": "ed-w-ds",
   "license": "ISC",
   "dependencies": {

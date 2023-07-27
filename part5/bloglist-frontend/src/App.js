@@ -13,6 +13,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     if (user) {
@@ -51,6 +53,10 @@ const App = () => {
 
     } catch (exception) {
       console.log('Wrong credentials')
+      setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -95,7 +101,6 @@ const App = () => {
   )
 
   const addBlog = (event) => {
-  
     return (
       <div>
         <h2>create new</h2>
@@ -146,13 +151,38 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+
     } catch (exception) {
       console.log('Error adding blog')
+
+      setErrorMessage('Error adding blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
+  }
+
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
   }
 
   return (
     <>
+      <Notification message={errorMessage} />
+      <Notification message={successMessage} />
+
       {user === null ?
         loginForm() :
         <>

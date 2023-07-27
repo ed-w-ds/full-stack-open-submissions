@@ -5,6 +5,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+import './index.css'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -166,13 +168,13 @@ const App = () => {
     }
   }
 
-  const Notification = ({ message }) => {
+  const Notification = ({ message, type }) => {
     if (message === null) {
       return null
     }
 
     return (
-      <div className="error">
+      <div className={type === 'error' ? 'error' : 'success'}>
         {message}
       </div>
     )
@@ -180,8 +182,8 @@ const App = () => {
 
   return (
     <>
-      <Notification message={errorMessage} />
-      <Notification message={successMessage} />
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
 
       {user === null ?
         loginForm() :

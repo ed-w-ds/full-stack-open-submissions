@@ -28,6 +28,8 @@ const App = () => {
   const [newSearch, setNewSearch] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const SuccessNotification = ({ message }) => {
     const style = {
@@ -196,6 +198,11 @@ const App = () => {
   const displayPersons = () => {  
     const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(newSearch)) 
     return filteredPersons.map(person => <li key={person.id}>{person.name} {person.number} <button id={ person.id } onClick={ deletePerson } >Delete</button> </li> )
+  }
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    console.log('logging in with', username, password)
   }
 
   return (

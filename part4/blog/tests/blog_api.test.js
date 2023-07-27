@@ -9,6 +9,7 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const { describe } = require('node:test')
 const { error } = require('console')
+const User = require('../models/user')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -39,7 +40,8 @@ describe('addition of a new blog', () => {
         title: 'Crime and Punishment',
         author: 'Fyodor Dostoevsky',
         url: 'https://en.wikipedia.org/wiki/Crime_and_Punishment',
-        likes: 10
+        likes: 10,
+        user: request.user
     }
 
     test('a valid blog can be added', async () => {
@@ -61,6 +63,7 @@ test('if the likes property is missing from the request, it will default to the 
         title: 'Crime and Punishment',
         author: 'Fyodor Dostoevsky',
         url: 'https://en.wikipedia.org/wiki/Crime_and_Punishment',
+        user: request.user
     }
 
     await api

@@ -4,11 +4,11 @@ GET http://localhost:3001/api/blogs
 
 POST http://localhost:3001/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzk0MDY0LCJleHAiOjE2OTAzOTc2NjR9.KJ4KBibQeu7YcYPYXbP3RWfQhmkYjKU2wOH68eJ12_Q
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDQ0NDI4NCwiZXhwIjoxNjkwNDQ3ODg0fQ.d9BxcGjpczEGykJlW1fXHHN_AydYwlCW81D9hA8_2Q8
 
 {   
-    "title": "middleware test",
-    "author": "ed-rad",
+    "title": "middleware test 13 to delete",
+    "author": "newUser",
     "url": "https://www.google..co.uk",
     "likes": 50
 }
@@ -36,10 +36,10 @@ POST http://localhost:3001/api/login
 content-type: application/json 
 
 {
-    "username": "ed-rad",
-    "password": "test"
+    "username": "newUser",
+    "password": "test123"
 }
 
 ### 
-DELETE http://localhost:3001/api/blogs/64c14f48923485c26ce213c8
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVkLXJhZCIsImlkIjoiNjRjMDIyNzMyODQ4ZDUzZTkyYWIwZDkzIiwiaWF0IjoxNjkwMzkzMTEzLCJleHAiOjE2OTAzOTY3MTN9.E1GakDCp6ze5zV7PcfCV9G7w4n06HYNFkDz5UpvaYUU
+DELETE http://localhost:3001/api/blogs/64c22174e79723a7d13213b3
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDQ0NDE4MCwiZXhwIjoxNjkwNDQ3NzgwfQ.Hdxhz_bbz1XNk2dSdE_cnwoffYktdn1iXXkLHE919-I

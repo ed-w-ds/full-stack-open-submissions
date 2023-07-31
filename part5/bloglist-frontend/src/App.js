@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 
 import Blog from './components/Blog'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Togglable from './components/Togglable'
+
 
 import './index.css'
 
@@ -105,52 +107,79 @@ const App = () => {
     </div>
   )
 
-  const addBlog = (event) => {
-    return (
-      <div>
-        <h2>create new</h2>
-        <form onSubmit={handleAddBlog}>
-          <div>
-            title:
-            <input
-              type="text"
-              value={title}
-              name="Title"
-              onChange={({ target }) => setTitle(target.value)}
-            />
-          </div>
-          <div>
-            author:
-            <input
-              type="text"
-              value={author}
-              name="Author"
-              onChange={({ target }) => setAuthor(target.value)}
-            />
-          </div>
-          <div>
-            url:
-            <input
-              type="text"
-              value={url}
-              name="Url"
-              onChange={({ target }) => setUrl(target.value)}
-            />
-          </div>
-          <button type="submit">create</button>
-        </form>
-      </div>
-    )
-  }
-
-  const handleAddBlog = async (event) => {
-    console.log('adding blog', title, author, url)
+  // const addBlog = (blogObject) => {
+  //   console.log('adding blog', title, author, url)
     
+  //   try {
+  //     blogFormRef.current.toggleVisibility()
+
+  //     blogService
+  //       .createBlog(blogObject)
+  //         .then(returnedBlog => {
+  //           setBlogs(blogs.concat(returnedBlog))
+  //           setTitle('')
+  //           setAuthor('')
+  //           setUrl('')
+  //           setSuccessMessage(`A new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+  //           setTimeout(() => {
+  //             setSuccessMessage(null)
+  //           }, 5000)
+  //         })
+  //     }
+
+  //   catch (exception) {
+  //     console.log('Error adding blog')
+  //     console.log(exception)
+
+  //     setErrorMessage('Error adding blog')
+  //     setTimeout(() => {
+  //       setErrorMessage(null)
+  //     }, 5000)
+  //   }
+  // }
+
+
+  // const addBlog = async () => {
+  //   console.log('adding blog', title, author, url)
+
+  //   const blogObject = {  
+  //     title: title,
+  //     author: author,
+  //     url: url
+  //   }
+    
+  //   try {
+  //     blogFormRef.current.toggleVisibility()
+      
+  //     const blog = await blogService.createBlog({blogObject})
+
+  //     setBlogs(blogs.concat(blog))
+  //     setTitle('')
+  //     setAuthor('')
+  //     setUrl('')
+  //     setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
+  //     setTimeout(() => {
+  //       setSuccessMessage(null)
+  //     }, 5000)
+
+  //   } catch (exception) {
+  //     console.log('Error adding blog')
+  //     console.log(exception)
+
+  //     setErrorMessage('Error adding blog')
+  //     setTimeout(() => {
+  //       setErrorMessage(null)
+  //     }, 5000)
+  //   }
+  // }
+
+  const addBlog = async (blogObject) => {
+    console.log('adding blog', blogObject)
+
     try {
       blogFormRef.current.toggleVisibility()
-      const blog = await blogService.createBlog({
-        title, author, url
-      })
+
+      const blog = await blogService.createBlog(blogObject)
 
       setBlogs(blogs.concat(blog))
       setTitle('')
@@ -163,6 +192,7 @@ const App = () => {
 
     } catch (exception) {
       console.log('Error adding blog')
+      console.log(exception)
 
       setErrorMessage('Error adding blog')
       setTimeout(() => {
@@ -170,6 +200,7 @@ const App = () => {
       }, 5000)
     }
   }
+
 
   const Notification = ({ message, type }) => {
     if (message === null) {
@@ -194,7 +225,7 @@ const App = () => {
         <>
           {showBlogs()}
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-            {addBlog()}
+            <BlogForm createBlog={ addBlog } />
           </Togglable>
         </>
       }

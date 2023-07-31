@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Blog from './components/Blog'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 import './index.css'
 
@@ -17,6 +18,8 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     if (user) {
@@ -145,6 +148,7 @@ const App = () => {
     console.log('adding blog', title, author, url)
     
     try {
+      blogFormRef.current.toggleVisibility()
       const blog = await blogService.createBlog({
         title, author, url
       })
@@ -186,10 +190,13 @@ const App = () => {
       <Notification message={successMessage} type="success" />
 
       {user === null ?
-        loginForm() :
+          loginForm() 
+        :
         <>
           {showBlogs()}
-          {addBlog()}
+          <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
+            {addBlog()}
+          </Togglable>
         </>
       }
     </>

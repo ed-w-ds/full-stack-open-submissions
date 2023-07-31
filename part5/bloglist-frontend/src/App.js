@@ -39,7 +39,7 @@ const App = () => {
   }, [])
 
   const handleLogin = async (event) => {
-    event.preventDefault()
+
     console.log('logging in with', username, password)
 
     try {
@@ -144,7 +144,6 @@ const App = () => {
   }
 
   const handleAddBlog = async (event) => {
-    event.preventDefault()
     console.log('adding blog', title, author, url)
     
     try {

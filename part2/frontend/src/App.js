@@ -38,13 +38,7 @@ const App = () => {
     }
   }, [])
 
-  const addNote = (event) => {
-    event.preventDefault()
-    const noteObject = {
-      content: newNote,
-      important: Math.random() > 0.5,
-    }
-
+  const addNote = (noteObject) => {
     noteService
       .create(noteObject)
         .then(returnedNote => {
@@ -138,10 +132,8 @@ const App = () => {
           <p>{user.name} logged-in</p>
           <Togglable buttonLabel='new note'>
             <NoteForm 
-              onSubmit={addNote}
-              handleChange={handleNoteChange}
-              value={newNote}
-              />
+              createNote={addNote}
+            />
           </Togglable>
         </div>
       }

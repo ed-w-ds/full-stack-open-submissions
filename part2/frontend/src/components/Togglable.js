@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, forwardRef, useImperativeHandle } from 'react'
 
-const Togglable = (props) => {
+const Togglable = forwardRef((props, refs) => {
     const [visible, setVisible] = useState(false)
 
     const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -9,6 +9,14 @@ const Togglable = (props) => {
     const toggleVisibility = () => {
         setVisible(!visible)
     }
+
+    // this is used to expose the toggleVisibility function to the parent component
+    // in this case the App component
+    useImperativeHandle(refs, () => {
+        return {
+            toggleVisibility
+        }
+    })
 
     return (
         <div>
@@ -24,6 +32,6 @@ const Togglable = (props) => {
             </div>
         </div>
     )
-}
+})
 
 export default Togglable

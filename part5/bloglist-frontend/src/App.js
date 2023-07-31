@@ -107,72 +107,6 @@ const App = () => {
     </div>
   )
 
-  // const addBlog = (blogObject) => {
-  //   console.log('adding blog', title, author, url)
-    
-  //   try {
-  //     blogFormRef.current.toggleVisibility()
-
-  //     blogService
-  //       .createBlog(blogObject)
-  //         .then(returnedBlog => {
-  //           setBlogs(blogs.concat(returnedBlog))
-  //           setTitle('')
-  //           setAuthor('')
-  //           setUrl('')
-  //           setSuccessMessage(`A new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
-  //           setTimeout(() => {
-  //             setSuccessMessage(null)
-  //           }, 5000)
-  //         })
-  //     }
-
-  //   catch (exception) {
-  //     console.log('Error adding blog')
-  //     console.log(exception)
-
-  //     setErrorMessage('Error adding blog')
-  //     setTimeout(() => {
-  //       setErrorMessage(null)
-  //     }, 5000)
-  //   }
-  // }
-
-
-  // const addBlog = async () => {
-  //   console.log('adding blog', title, author, url)
-
-  //   const blogObject = {  
-  //     title: title,
-  //     author: author,
-  //     url: url
-  //   }
-    
-  //   try {
-  //     blogFormRef.current.toggleVisibility()
-      
-  //     const blog = await blogService.createBlog({blogObject})
-
-  //     setBlogs(blogs.concat(blog))
-  //     setTitle('')
-  //     setAuthor('')
-  //     setUrl('')
-  //     setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
-  //     setTimeout(() => {
-  //       setSuccessMessage(null)
-  //     }, 5000)
-
-  //   } catch (exception) {
-  //     console.log('Error adding blog')
-  //     console.log(exception)
-
-  //     setErrorMessage('Error adding blog')
-  //     setTimeout(() => {
-  //       setErrorMessage(null)
-  //     }, 5000)
-  //   }
-  // }
-
   const addBlog = async (blogObject) => {
     console.log('adding blog', blogObject)
 
@@ -189,7 +123,6 @@ const App = () => {
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
-
     } catch (exception) {
       console.log('Error adding blog')
       console.log(exception)
@@ -223,10 +156,10 @@ const App = () => {
           loginForm() 
         :
         <>
-          {showBlogs()}
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
             <BlogForm createBlog={ addBlog } />
           </Togglable>
+          {showBlogs()}
         </>
       }
     </>

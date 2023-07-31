@@ -28,7 +28,7 @@ const Togglable = forwardRef((props, refs) => {
                 e.g the usage for togglable is placing another component inside the toggle component
                 or rather passing it as a child of Togglable component */}
                 {props.children}
-                <button onClick={toggleVisibility}>cancel</button>
+                <button onClick={toggleVisibility}>hide</button>
             </div>
         </div>
     )

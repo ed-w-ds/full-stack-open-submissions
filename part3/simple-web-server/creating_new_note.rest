@@ -2,9 +2,9 @@ POST http://localhost:3001/api/users
 content-type: application/json
 
 {
-    "username": "superoot",
-    "name": "Superuser",
-    "password": "salained"
+    "username": "test",
+    "name": "testName",
+    "password": "test"
 }
 
 ###
@@ -19,7 +19,7 @@ GET http://localhost:3001/api/notes
 
 POST http://localhost:3001/api/notes
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyb290IiwiaWQiOiI2NGJmZjNiMTViYmNhOTdkNGI1ODhiYmIiLCJpYXQiOjE2OTAzMDY1MjYsImV4cCI6MTY5MDMxMDEyNn0.eTUuzd9Iss9AGSxgOrQChjy7eca7VfEQCfIJzRm26B0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY0YzM4NjRjYWExOWM0YjU4ZWE3NTIwMiIsImlhdCI6MTY5MDUzNTU4MiwiZXhwIjoxNjkwNTM5MTgyfQ.b_SIKC9u-9_FElwEhMZwGRtX_oTuKlqH_3yv0cLatds
 
 {
     "content": "this is my seventh note",
@@ -50,6 +50,6 @@ post http://localhost:3001/api/login
 content-type: application/json
 
 {
-    "username": "superoot",
-    "password": "salained"
+    "username": "test",
+    "password": "test"
 }

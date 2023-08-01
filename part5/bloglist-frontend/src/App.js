@@ -29,19 +29,9 @@ const App = () => {
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     }
     getBlogs()
-  }, [user, successMessage])
-
-  // useEffect(() => {
-  //   if (user) {
-  //     blogService.getAll()
-  //     .then(blogs =>
-  //       blogs.sort((a, b) => b.likes - a.likes)
-  //     )
-  //     .then(blogs =>
-  //       setBlogs( blogs )
-  //     )  
-  //   }
-  // }, [user])
+  }, [user])
+  // add success message in the dependency array
+  // so the blog list is updated when a blog has more likes than the blog above
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -120,6 +110,7 @@ const App = () => {
           key={blog.id} 
           blog={blog} 
           updateBlog={updateBlog}
+          deleteBlog={deleteBlog}
         />
       )}
     </div>
@@ -192,7 +183,28 @@ const App = () => {
   }
 
   // delete blog
-  
+  const deleteBlog = async (id) => {
+    console.log('deleting blog', id)
+
+    try {
+      await blogService.deleteBlog(id)
+
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      setSuccessMessage(`Blog deleted`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch (exception) {
+      console.log('Error deleting blog')
+      console.log('exception', exception)
+
+      setErrorMessage('Error deleting blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   // notification
   const Notification = ({ message, type }) => {
     if (message === null) {

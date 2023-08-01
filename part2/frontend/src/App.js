@@ -1,3 +1,7 @@
+/*eslint linebreak-style: ["error", "unix"]*/
+/*eslint indent: ["error", 2]*/
+/*eslint quotes: ["error", "single"]*/
+/* eslint no-unused-vars: 0 */
 import { useState, useEffect, useRef } from 'react'
 
 import Note from './components/Note'
@@ -45,7 +49,7 @@ const App = () => {
 
     noteService
       .create(noteObject)
-        .then(returnedNote => {
+      .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
@@ -114,9 +118,9 @@ const App = () => {
         {user === null && loginForm()}
         {user !== null && noteForm()}
 
-        {user === null 
-        ? loginForm() 
-        : noteForm() 
+        {user === null
+        ? loginForm()
+        : noteForm()
         }
        */}
 
@@ -139,16 +143,16 @@ const App = () => {
           </Togglable>
         </div>
       }
-        
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
         </button>
-      </div> 
+      </div>
 
       <ul>
         <ul>
-          {notesToShow.map(note => 
+          {notesToShow.map(note =>
             <Note
               key={note.id}
               note={note}

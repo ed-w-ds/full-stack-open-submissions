@@ -1,9 +1,12 @@
+/*eslint linebreak-style: ["error", "unix"]*/
+/*eslint indent: ["error", 2]*/
+/*eslint quotes: ["error", "single"]*/
+/* eslint no-unused-vars: 0 */
 import { useState, useEffect, useRef } from 'react'
 
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
-
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -51,15 +54,12 @@ const App = () => {
         username, password,
       })
 
-    window.localStorage.setItem(
-      'loggedNoteappUser', JSON.stringify(user)
-    )
+      window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
 
-    blogService.setToken(user.token)
-    setUser(user)
-    setUsername('')
-    setPassword('')
-
+      blogService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
     } catch (exception) {
       console.log('Wrong credentials')
       setErrorMessage('Wrong credentials')
@@ -74,7 +74,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -83,7 +83,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -106,9 +106,9 @@ const App = () => {
       <h2>blogs</h2>
       <p>{user.name} logged-in <button onClick={ logout }>logout</button></p>
       {blogs.map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog} 
+        <Blog
+          key={blog.id}
+          blog={blog}
           updateBlog={updateBlog}
           deleteBlog={deleteBlog}
         />
@@ -190,7 +190,7 @@ const App = () => {
       await blogService.deleteBlog(id)
 
       setBlogs(blogs.filter(blog => blog.id !== id))
-      setSuccessMessage(`Blog deleted`)
+      setSuccessMessage('Blog deleted')
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
@@ -216,8 +216,7 @@ const App = () => {
         {message}
       </div>
     )
-  } 
-
+  }
   // return app
   return (
     <>
@@ -225,11 +224,11 @@ const App = () => {
       <Notification message={successMessage} type="success" />
 
       {user === null ?
-          loginForm() 
+        loginForm()
         :
         <>
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-            <BlogForm 
+            <BlogForm
               createBlog={ addBlog }
             />
           </Togglable>

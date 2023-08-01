@@ -30,7 +30,7 @@ const Blog = ({blog, updateBlog, deleteBlog}) => {
     borderWidth: 1,
     marginBottom: 5
   }
-
+  
   return (
     <div style={blogStyle}>
       <p><b>Title:</b> {blog.title} || <b>Author:</b> {blog.author}</p>

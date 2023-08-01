@@ -1,3 +1,5 @@
+/*eslint linebreak-style: ["error", "unix"]*/
+/*eslint indent: ["error", 2]*/
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
@@ -41,8 +43,7 @@ const deleteBlog = async (id) => {
   return response.data
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { 
+export default {
   getAll,
   setToken,
   createBlog,

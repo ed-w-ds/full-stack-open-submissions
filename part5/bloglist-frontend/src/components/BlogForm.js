@@ -8,6 +8,7 @@ const BlogForm = ({ createBlog }) => {
     const addBlog = (event) => {
         event.preventDefault()
         console.log('addBlog', newBlog, newAuthor, newUrl)
+
         createBlog({
             // the parameters that are passed to the addBlog function in app.js
             // that is passed as createBlog to this component

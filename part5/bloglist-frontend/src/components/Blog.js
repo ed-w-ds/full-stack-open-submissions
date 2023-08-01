@@ -25,6 +25,7 @@ const Blog = ({blog}) => {
       <div style={hideWhenShowDetails}>
         <p>Likes: {blog.likes} <button>like</button></p>
         <p>Url: {blog.url}</p>
+        {blog.user?.name ? <p>{blog.user.name}</p> : null}
       </div>
       <button onClick={toggleShowDetails}>{ buttonLabel }</button>
     </div>  

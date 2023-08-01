@@ -7,7 +7,6 @@ import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-
 import './index.css'
 
 const App = () => {
@@ -29,7 +28,7 @@ const App = () => {
         setBlogs( blogs )
       )  
     }
-  }, [user])
+  }, [user, setBlogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -109,13 +108,21 @@ const App = () => {
 
   const addBlog = async (blogObject) => {
     console.log('adding blog', blogObject)
+    console.log('user', user)
+    console.log('user name', user.name)
 
     try {
       blogFormRef.current.toggleVisibility()
 
       const blog = await blogService.createBlog(blogObject)
 
-      setBlogs(blogs.concat(blog))
+      const updatedBlog = {
+        ...blog,
+        user: {
+          name: user.name
+        }
+      }
+      setBlogs(blogs.concat(updatedBlog))
       setTitle('')
       setAuthor('')
       setUrl('')

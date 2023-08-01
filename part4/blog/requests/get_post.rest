@@ -1,5 +1,5 @@
 GET http://localhost:3003/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDQ2ODI3NSwiZXhwIjoxNjkwNDcxODc1fQ.1ENR7HIcN6l1UnWN6ArTaI3JznGtJVauFgmumvqx6i4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg4NjM5OSwiZXhwIjoxNjkwODg5OTk5fQ.GR4LrSrVjx4KvylgJHQz-5kF85NGU7CShPKJeqemU98
 
 ###
 
@@ -10,8 +10,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld
 {   
     "title": "middleware test 13 to delete",
     "author": "newUser",
-    "url": "https://www.google..co.uk",
-    "likes": 50
+    "url": "https://www.google.co.uk",
 }
 
 ###

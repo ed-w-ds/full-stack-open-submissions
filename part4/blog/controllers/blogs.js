@@ -12,14 +12,6 @@ blogsRouter.get('/', async (request, response) => {
     response.json(blogs)
     })
 
-// const getTokenFrom = request => {
-//     const authorization = request.get('authorization')
-//     if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-//         return authorization.substring(7)
-//     }
-//     return null
-// }
-
 blogsRouter.post('/', async (request, response) => {
     const body = request.body
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
@@ -56,13 +48,19 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
     const user = request.user
+
+    try {
     const blog = await Blog.findById(request.params.id)
     if (blog.user.toString() !== user.id.toString()) {
         return response.status(401).json({ error: 'only the creator can delete blogs' })
     }
 
     await Blog.findByIdAndRemove(request.params.id)
+    console.log(`blog ${blog.title} by ${blog.author} deleted`)
     response.status(204).end()
+    } catch (error) {
+        next(error)
+    }
 })
 // blogsRouter.delete('/:id', async (request, response) => {
 //     const decodedToken = jwt.verify(request.token, process.env.SECRET)

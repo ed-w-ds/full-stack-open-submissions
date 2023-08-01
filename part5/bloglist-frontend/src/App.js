@@ -28,7 +28,7 @@ const App = () => {
         setBlogs( blogs )
       )  
     }
-  }, [user, setBlogs])
+  }, [user])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -66,6 +66,7 @@ const App = () => {
     }
   }
 
+  // login and logout
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -96,16 +97,22 @@ const App = () => {
     window.location.reload()
   }
 
+  // show blogs
   const showBlogs = () => (
     <div>
       <h2>blogs</h2>
       <p>{user.name} logged-in <button onClick={ logout }>logout</button></p>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog 
+          key={blog.id} 
+          blog={blog} 
+          updateBlog={updateBlog}
+        />
       )}
     </div>
   )
 
+  // add blog
   const addBlog = async (blogObject) => {
     console.log('adding blog', blogObject)
     console.log('user', user)
@@ -141,7 +148,39 @@ const App = () => {
     }
   }
 
+  //update blog
+  const updateBlog = async (id, blogObject) => {
+    console.log('updating blog', blogObject)
 
+    try {
+      const blog = await blogService.updateBlog(id, blogObject)
+
+      const updatedBlog = {
+        ...blog,
+        user: {
+          name: user.name
+        }
+      }
+
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+      setSuccessMessage(`Blog ${blog.title} by ${blog.author} updated`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch (exception) {
+      console.log('Error updating blog')
+      console.log('exception', exception)
+
+      setErrorMessage('Error updating blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
+  // delete blog
+  
+  // notification
   const Notification = ({ message, type }) => {
     if (message === null) {
       return null
@@ -152,8 +191,9 @@ const App = () => {
         {message}
       </div>
     )
-  }
+  } 
 
+  // return app
   return (
     <>
       <Notification message={errorMessage} type="error" />
@@ -164,7 +204,9 @@ const App = () => {
         :
         <>
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-            <BlogForm createBlog={ addBlog } />
+            <BlogForm 
+              createBlog={ addBlog }
+            />
           </Togglable>
           {showBlogs()}
         </>

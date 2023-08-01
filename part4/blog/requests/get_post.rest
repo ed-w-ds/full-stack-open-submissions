@@ -1,16 +1,17 @@
 GET http://localhost:3003/api/blogs
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg4NjM5OSwiZXhwIjoxNjkwODg5OTk5fQ.GR4LrSrVjx4KvylgJHQz-5kF85NGU7CShPKJeqemU98
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg5ODkwNywiZXhwIjoxNjkwOTAyNTA3fQ.T32WgSeLaIst_0cmUKaFID0JMFsk-pInEk53S-pkaZs
 
 ###
 
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDQ0NDI4NCwiZXhwIjoxNjkwNDQ3ODg0fQ.d9BxcGjpczEGykJlW1fXHHN_AydYwlCW81D9hA8_2Q8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg5ODkwNywiZXhwIjoxNjkwOTAyNTA3fQ.T32WgSeLaIst_0cmUKaFID0JMFsk-pInEk53S-pkaZs
 
 {   
-    "title": "middleware test 13 to delete",
-    "author": "newUser",
-    "url": "https://www.google.co.uk",
+    "title": "test PUT 2",
+    "author": "PUtTESTER",
+    "likes": 42,
+    "url": "https://www.google.co.uk"
 }
 
 ###
@@ -20,7 +21,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/users
+POST http://localhost:3003/api/users
 content-type: application/json
 
 {
@@ -41,5 +42,17 @@ content-type: application/json
 }
 
 ### 
-DELETE http://localhost:3001/api/blogs/64c22174e79723a7d13213b3
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDQ0NDE4MCwiZXhwIjoxNjkwNDQ3NzgwfQ.Hdxhz_bbz1XNk2dSdE_cnwoffYktdn1iXXkLHE919-I
+DELETE http://localhost:3003/api/blogs/64c7d7ab80589c274591c6ac
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg5ODkwNywiZXhwIjoxNjkwOTAyNTA3fQ.T32WgSeLaIst_0cmUKaFID0JMFsk-pInEk53S-pkaZs
+
+###
+PUT http://localhost:3003/api/blogs/64c912d32653d24fc6fa2335
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg5ODkwNywiZXhwIjoxNjkwOTAyNTA3fQ.T32WgSeLaIst_0cmUKaFID0JMFsk-pInEk53S-pkaZs
+
+{   
+    "title": "middleware test 13 to delete",
+    "author": "newUser",
+    "likes": 43,
+    "url": "https://www.google.co.uk"
+}

@@ -22,13 +22,26 @@ const App = () => {
 
   const blogFormRef = useRef()
 
+  // get all blogs
   useEffect(() => {
-    if (user) {
-      blogService.getAll().then(blogs =>
-        setBlogs( blogs )
-      )  
+    const getBlogs = async () => {
+      const blogs = await blogService.getAll()
+      setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     }
-  }, [user])
+    getBlogs()
+  }, [user, successMessage])
+
+  // useEffect(() => {
+  //   if (user) {
+  //     blogService.getAll()
+  //     .then(blogs =>
+  //       blogs.sort((a, b) => b.likes - a.likes)
+  //     )
+  //     .then(blogs =>
+  //       setBlogs( blogs )
+  //     )  
+  //   }
+  // }, [user])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')

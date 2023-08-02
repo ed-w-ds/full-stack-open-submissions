@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
@@ -32,11 +33,11 @@ const Blog = ({blog, updateBlog, deleteBlog}) => {
   }
   
   return (
-    <div style={blogStyle}>
-      <p><b>Title:</b> {blog.title} || <b>Author:</b> {blog.author}</p>
-      <div style={hideWhenShowDetails}>
+    <div style={blogStyle} className='blog'>
+      <p className='titleAuthor'><b>Title:</b> {blog.title} || <b>Author:</b> {blog.author}</p>
+      <div style={hideWhenShowDetails} className="details">
         <p>Likes: {blog.likes} <button onClick={ handleLike }>like</button></p>
-        <p>Url: {blog.url}</p>
+        {blog.url? <p>Url: {blog.url}</p> : null}
         {blog.user?.name ? <p>{blog.user.name}</p> : null}
         <button onClick={ handleDelete } >remove</button>
       </div>

@@ -6,21 +6,19 @@ import Blog from './Blog'
 
 describe('<Blog />', () => {
     let container
+    const updateBlog = jest.fn()
+    const deleteBlog = jest.fn()
+    const blog = {
+        title: 'Test Title',
+        author: 'Test Author',
+        url: 'Test Url',
+        likes: 0,
+        user: {
+            name: 'Test User'
+        }
+    }
 
     beforeEach(() => {
-        const updateBlog = jest.fn()
-        const deleteBlog = jest.fn()
-
-        const blog = {
-            title: 'Test Title',
-            author: 'Test Author',
-            url: 'Test Url',
-            likes: 0,
-            user: {
-                name: 'Test User'
-            }
-        }
-
         container = render(
             <Blog
                 blog={blog}
@@ -52,5 +50,17 @@ describe('<Blog />', () => {
         expect(div).toHaveTextContent('0')
         // toHaveTextContent is synchronous, so we can use it for testing if the user is displayed immediately
         expect(div).toHaveTextContent('Test User')
+    })
+
+    test('if the like button is clicked twice, the event handler the component received as props is called twice', async () => {
+        const user = userEvent.setup()
+        const button = screen.getByText('view')
+        await user.click(button)
+
+        const likeButton = screen.getByText('like')
+        await user.click(likeButton)
+        await user.click(likeButton)
+
+        expect(updateBlog.mock.calls).toHaveLength(2)
     })
 })

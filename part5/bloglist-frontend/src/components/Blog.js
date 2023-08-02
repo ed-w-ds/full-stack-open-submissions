@@ -36,7 +36,7 @@ const Blog = ({blog, updateBlog, deleteBlog}) => {
     <div style={blogStyle} className='blog'>
       <p className='titleAuthor'><b>Title:</b> {blog.title} || <b>Author:</b> {blog.author}</p>
       <div style={hideWhenShowDetails} className="details">
-        <p>Likes: {blog.likes} <button onClick={ handleLike }>like</button></p>
+        <p className='likes'>Likes: {blog.likes} <button onClick={ handleLike }>like</button></p>
         {blog.url? <p>Url: {blog.url}</p> : null}
         {blog.user?.name ? <p>{blog.user.name}</p> : null}
         <button onClick={ handleDelete } >remove</button>

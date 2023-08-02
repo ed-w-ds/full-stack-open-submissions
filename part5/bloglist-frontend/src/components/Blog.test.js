@@ -31,11 +31,26 @@ describe('<Blog />', () => {
     })
 
     test('renders content Title and Author by default', async () => {
-
         const titleAuthor = container.querySelector('.titleAuthor')
         expect(titleAuthor).toHaveTextContent('Test Title')
         expect(titleAuthor).toHaveTextContent('Test Author')
         const details = container.querySelector('.details')
         expect(details).toHaveStyle('display: none')
+    })
+
+    test('renders content Title, Author, Url, Likes and User after the show button is clicked', async () => {
+        const user = userEvent.setup()
+        const button = screen.getByText('view')
+        await user.click(button)
+
+        const titleAuthor = container.querySelector('.titleAuthor')
+        expect(titleAuthor).toHaveTextContent('Test Title')
+        expect(titleAuthor).toHaveTextContent('Test Author')
+        const div = container.querySelector('.details')
+        expect(div).not.toHaveStyle('display: none')
+        expect(div).toHaveTextContent('Test Url')
+        expect(div).toHaveTextContent('0')
+        // toHaveTextContent is synchronous, so we can use it for testing if the user is displayed immediately
+        expect(div).toHaveTextContent('Test User')
     })
 })

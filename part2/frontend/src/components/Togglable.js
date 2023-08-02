@@ -24,7 +24,7 @@ const Togglable = forwardRef((props, refs) => {
             <div style={hideWhenVisible}>
                 <button onClick={toggleVisibility}>{props.buttonLabel}</button>
             </div>
-            <div style={showWhenVisible}>
+            <div style={showWhenVisible} className="togglableContent">
                 {/* props.children is used for refrencing the child components of a component
                 e.g the usage for togglable is placing another component inside the toggle component
                 or rather passing it as a child of Togglable component */}

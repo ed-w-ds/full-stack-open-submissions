@@ -1,34 +1,41 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import Blog from './Blog'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import Blog from './Blog'
 
-test('renders content Title and Author by default', async () => {
-    const updateBlog = jest.fn()
-    const deleteBlog = jest.fn()
+describe('<Blog />', () => {
+    let container
 
-    const blog = {
-        title: 'Test Title',
-        author: 'Test Author',
-        url: 'Test Url',
-        likes: 0,
-        user: {
-            name: 'Test User'
+    beforeEach(() => {
+        const updateBlog = jest.fn()
+        const deleteBlog = jest.fn()
+
+        const blog = {
+            title: 'Test Title',
+            author: 'Test Author',
+            url: 'Test Url',
+            likes: 0,
+            user: {
+                name: 'Test User'
+            }
         }
-    }
 
-    const component = render(
-        <Blog
-            blog={blog}
-            updateBlog={updateBlog}
-            deleteBlog={deleteBlog}
-        />
-    )
+        container = render(
+            <Blog
+                blog={blog}
+                updateBlog={updateBlog}
+                deleteBlog={deleteBlog}
+            />
+        ).container
+    })
 
-    const titleAuthor = component.container.querySelector('.titleAuthor')
-    expect(titleAuthor).toHaveTextContent('Test Title')
-    expect(titleAuthor).toHaveTextContent('Test Author')
-    const details = component.container.querySelector('.details')
-    expect(details).toHaveStyle('display: none')
+    test('renders content Title and Author by default', async () => {
+
+        const titleAuthor = container.querySelector('.titleAuthor')
+        expect(titleAuthor).toHaveTextContent('Test Title')
+        expect(titleAuthor).toHaveTextContent('Test Author')
+        const details = container.querySelector('.details')
+        expect(details).toHaveStyle('display: none')
+    })
 })

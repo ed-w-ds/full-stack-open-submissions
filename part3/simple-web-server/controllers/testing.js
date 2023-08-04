@@ -2,6 +2,7 @@
 const testingRouter = require('express').Router()
 const Note = require('../models/note')
 const User = require('../models/user')
+
 console.log('testing.js: testingRouter: ', testingRouter)
 
 testingRouter.post('/reset', async (request, response) => {
@@ -10,3 +11,5 @@ testingRouter.post('/reset', async (request, response) => {
 
     response.status(204).end()
 })
+
+module.exports = testingRouter

@@ -92,11 +92,14 @@ describe('Note app', function() {
         describe('and a note exists', function () {
             // using the helper function
             beforeEach(function () {
-                cy.createNote({
-                    content: 'another note cypress',
-                    important: true
-                })
+                cy.createNote({ content: 'first note', important: false })
+                cy.createNote({ content: 'second note', important: false })
+                cy.createNote({ content: 'third note', important: false })
             })
+            // cy.createNote({
+            //     content: 'another note cypress',
+            //     important: true
+            // })
             // same as above but without the helper function
             // beforeEach(function () {
             //     cy.contains('new note').click()
@@ -104,14 +107,38 @@ describe('Note app', function() {
             //     cy.contains('save').click()
             // })
 
-            it('it can be made not important', function () {
-                cy.contains('another note cypress')
-                    .contains('make not important')
-                    .click()
+            // it('it can be made not important', function () {
+            //     // When chained, the second contains command continues the search
+            //     // from within the component found by the first command.
+            //     cy.contains('second note')
+            //         .contains('make important')
+            //         .click()
 
-                cy.contains('another note cypress')
-                    .contains('make important')
+            //     cy.contains('second note')
+            //         .contains('make not important')
+            // })
+
+            // it('one of those can be made important', function () {
+            //     cy.contains('second note')
+            //         .parent()
+            //         // find instead of get is used because
+            //         // get always searches from the whole page and would return all 5 buttons on the page.
+            //         .find('button')
+            //         .click()
+
+            //     cy.contains('second note')
+            //         .parent()
+            //         .find('button')
+            //         .should('contain', 'make not important')
+            // })
+
+            // can also use .as to create an alias for the button
+            it('one of those can be made important', function () {
+                cy.contains('second note').parent().find('button').as('theButton')
+                cy.get('@theButton').click()
+                cy.get('@theButton').should('contain', 'make not important')
             })
+
         })
     })
 

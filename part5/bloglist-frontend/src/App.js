@@ -75,6 +75,8 @@ const App = () => {
       <div>
         username
         <input
+          id="username-input"
+          placeholder="username"
           type="text"
           value={username}
           name="Username"
@@ -84,6 +86,8 @@ const App = () => {
       <div>
         password
         <input
+          id="password-input"
+          placeholder="password"
           type="password"
           value={password}
           name="Password"
@@ -91,7 +95,7 @@ const App = () => {
           autoComplete = "on"
         />
       </div>
-      <button type="submit">login</button>
+      <button id="submit-button" type="submit">login</button>
     </form>
   )
 

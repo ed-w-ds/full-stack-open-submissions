@@ -28,6 +28,9 @@ const App = () => {
   // get all blogs
   useEffect(() => {
     const getBlogs = async () => {
+      if (!user) {
+        return
+      }
       const blogs = await blogService.getAll()
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     }
@@ -46,6 +49,7 @@ const App = () => {
   }, [])
 
   const handleLogin = async (event) => {
+    event.preventDefault()
 
     console.log('logging in with', username, password)
 
@@ -95,7 +99,7 @@ const App = () => {
           autoComplete = "on"
         />
       </div>
-      <button id="submit-button" type="submit">login</button>
+      <button id="login-button" type="submit">login</button>
     </form>
   )
 

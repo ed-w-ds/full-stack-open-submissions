@@ -5,11 +5,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld
 
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg5ODkwNywiZXhwIjoxNjkwOTAyNTA3fQ.T32WgSeLaIst_0cmUKaFID0JMFsk-pInEk53S-pkaZs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0Y2U3MjIxMWUzOWNlMmI2MGVmMDc3ZCIsImlhdCI6MTY5MTI1MTI1MCwiZXhwIjoxNjkxMjU0ODUwfQ.O3uFs07V2iBVo1CgLYrKH-EJ0jdWSIlpeu8j4wUaKj0
 
 {   
-    "title": "test PUT 2",
-    "author": "PUtTESTER",
+    "title": "test delete hide",
+    "author": "Delete Button",
     "likes": 42,
     "url": "https://www.google.co.uk"
 }
@@ -26,7 +26,7 @@ content-type: application/json
 
 {
     "username": "newUser",
-    "name": "theuser2",
+    "name": "New User Name",
     "password": "test123"
 }
 
@@ -37,8 +37,8 @@ POST http://localhost:3003/api/login
 content-type: application/json 
 
 {
-    "username": "mluukkai",
-    "password": "salainen"
+    "username": "newUser",
+    "password": "test123"
 }
 
 ### 
@@ -48,7 +48,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld
 ###
 PUT http://localhost:3003/api/blogs/64c912d32653d24fc6fa2335
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0YzBlZTk3MzkwYjA4ZTQ4NTIxYmE4YSIsImlhdCI6MTY5MDg5ODkwNywiZXhwIjoxNjkwOTAyNTA3fQ.T32WgSeLaIst_0cmUKaFID0JMFsk-pInEk53S-pkaZs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjY0Y2U3MjIxMWUzOWNlMmI2MGVmMDc3ZCIsImlhdCI6MTY5MTI1MTI1MCwiZXhwIjoxNjkxMjU0ODUwfQ.O3uFs07V2iBVo1CgLYrKH-EJ0jdWSIlpeu8j4wUaKj0
 
 {   
     "title": "middleware test 13 to delete",

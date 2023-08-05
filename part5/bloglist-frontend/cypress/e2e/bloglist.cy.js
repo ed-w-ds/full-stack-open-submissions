@@ -92,6 +92,26 @@ describe('Blog app', function() {
                 // opt. include logout and login with another person who can't delete a blog
                 // cy.contains(logout).click()
             })
+
+            it.only('the blog cannot be deleted by another user', function() {
+                cy.contains('logout').click()
+                const user = {
+                    name: 'Matti 2',
+                    username: 'mluukkai2',
+                    password: 'salainen'
+                }
+                cy.request('POST', 'http://localhost:3003/api/users', user)
+
+                cy.request('POST', 'http://localhost:3003/api/login', {
+                    username: 'mluukkai2', password: 'salainen'
+                }).then(response => {
+                    localStorage.setItem('loggedNoteappUser', JSON.stringify(response.body))
+                    cy.visit('http://localhost:3000')
+                })
+
+                cy.contains('view').click()
+                cy.get('remove').should('not.exist')
+            })
         })
     })
 })

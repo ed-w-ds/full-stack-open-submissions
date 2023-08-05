@@ -119,6 +119,7 @@ const App = () => {
           blog={blog}
           updateBlog={updateBlog}
           deleteBlog={deleteBlog}
+          user={user}
         />
       )}
     </div>
@@ -161,16 +162,14 @@ const App = () => {
   }
 
   //update blog
-  const updateBlog = async (id, blogObject) => {
-    console.log('updating blog', blogObject)
+  const updateBlog = async (id, blogObject, blogUserName) => {
 
     try {
       const blog = await blogService.updateBlog(id, blogObject)
-
-      const updatedBlog = {
+      const updatedBlog = await {
         ...blog,
         user: {
-          name: user.name
+          name: blogUserName
         }
       }
 

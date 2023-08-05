@@ -5,6 +5,10 @@
 //     })
 // })
 
+// cy.get('[data-cy="submit"]').click()
+// and cy.contains('Submit').click()
+// is better than using #
+
 describe('Blog app', function() {
 
     beforeEach(function() {

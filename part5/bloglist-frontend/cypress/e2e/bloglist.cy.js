@@ -56,7 +56,7 @@ describe('Blog app', function() {
             })
         })
 
-        it('A blog can be created', function() {
+        it('A blog can be created and exists', function() {
             cy.contains('new blog').click()
             cy.get('#title-input').type('a blog created by cypress')
             cy.get('#author-input').type('cypress')
@@ -69,5 +69,21 @@ describe('Blog app', function() {
                 .and('contain', 'view')
         })
 
+        describe('and a blog exists', function() {
+            beforeEach(function() {
+                cy.contains('new blog').click()
+                cy.get('#title-input').type('a blog created by cypress')
+                cy.get('#author-input').type('cypress')
+                cy.get('#url-input').type('www.cypress.com')
+                cy.get('#submit-button').click()
+
+                cy.contains('view').click()
+            })
+
+            it('it can be liked', function() {
+                cy.contains('like').click()
+                cy.contains('Likes: 1')
+            })
+        })
     })
 })

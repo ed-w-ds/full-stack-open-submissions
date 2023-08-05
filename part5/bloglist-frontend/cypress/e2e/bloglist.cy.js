@@ -80,9 +80,17 @@ describe('Blog app', function() {
                 cy.contains('view').click()
             })
 
-            it('it can be liked', function() {
+            it('the blog can be liked', function() {
                 cy.contains('like').click()
                 cy.contains('Likes: 1')
+            })
+
+            it('the blog can be deleted by the user that created it', function() {
+                cy.contains('remove').click()
+                cy.get('html').should('not.contain', 'a blog created by cypress')
+
+                // opt. include logout and login with another person who can't delete a blog
+                // cy.contains(logout).click()
             })
         })
     })

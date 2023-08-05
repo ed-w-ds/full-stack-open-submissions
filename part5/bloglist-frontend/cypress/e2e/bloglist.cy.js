@@ -48,12 +48,7 @@ describe('Blog app', function() {
     })
     describe('When logged in', function() {
         beforeEach(function() {
-            cy.request('POST', 'http://localhost:3003/api/login', {
-                username: 'mluukkai', password: 'salainen'
-            }).then(response => {
-                localStorage.setItem('loggedNoteappUser', JSON.stringify(response.body))
-                cy.visit('http://localhost:3000')
-            })
+            cy.login({ username: 'mluukkai', password: 'salainen' })
         })
 
         it('A blog can be created and exists', function() {
@@ -100,33 +95,27 @@ describe('Blog app', function() {
                     username: 'mluukkai2',
                     password: 'salainen'
                 }
-                cy.request('POST', 'http://localhost:3003/api/users', user)
+                cy.request('POST', `${Cypress.env('BACKEND')}/users`, user)
 
-                cy.request('POST', 'http://localhost:3003/api/login', {
-                    username: 'mluukkai2', password: 'salainen'
-                }).then(response => {
-                    localStorage.setItem('loggedNoteappUser', JSON.stringify(response.body))
-                    cy.visit('http://localhost:3000')
-                })
+                cy.login({ username: 'mluukkai2', password: 'salainen' })
 
                 cy.contains('view').click()
                 cy.get('remove').should('not.exist')
             })
         })
 
-        describe.only('and multiple blogs exist', function() {
+        describe('and multiple blogs exist', function() {
             beforeEach(function() {
-                cy.contains('new blog').click()
-                cy.get('#title-input').type('The title with the most likes')
-                cy.get('#author-input').type('cypress')
-                cy.get('#url-input').type('www.cypress.com')
-                cy.get('#submit-button').click()
-
-                cy.contains('new blog').click()
-                cy.get('#title-input').type('The title with the second most likes')
-                cy.get('#author-input').type('cypress')
-                cy.get('#url-input').type('www.cypress.com')
-                cy.get('#submit-button').click()
+                cy.createBlog({
+                    title: 'The title with the most likes',
+                    author: 'cypress',
+                    url: 'www.cypress.com'
+                })
+                cy.createBlog({
+                    title: 'The title with the second most likes',
+                    author: 'cypress',
+                    url: 'www.cypress.com'
+                })
             })
 
             it('blogs are ordered by likes', function() {

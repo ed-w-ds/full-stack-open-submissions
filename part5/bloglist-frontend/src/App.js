@@ -35,7 +35,7 @@ const App = () => {
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     }
     getBlogs()
-  }, [user])
+  }, [user, successMessage])
   // add success message in the dependency array
   // so the blog list is updated when a blog has more likes than the blog above
 
@@ -110,7 +110,7 @@ const App = () => {
 
   // show blogs
   const showBlogs = () => (
-    <div>
+    <div id="blog">
       <h2>blogs</h2>
       <p>{user.name} logged-in <button onClick={ logout }>logout</button></p>
       {blogs.map(blog =>

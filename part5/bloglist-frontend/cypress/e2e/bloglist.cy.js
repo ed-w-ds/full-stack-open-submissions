@@ -93,7 +93,7 @@ describe('Blog app', function() {
                 // cy.contains(logout).click()
             })
 
-            it.only('the blog cannot be deleted by another user', function() {
+            it('the blog cannot be deleted by another user', function() {
                 cy.contains('logout').click()
                 const user = {
                     name: 'Matti 2',
@@ -111,6 +111,40 @@ describe('Blog app', function() {
 
                 cy.contains('view').click()
                 cy.get('remove').should('not.exist')
+            })
+        })
+
+        describe.only('and multiple blogs exist', function() {
+            beforeEach(function() {
+                cy.contains('new blog').click()
+                cy.get('#title-input').type('The title with the most likes')
+                cy.get('#author-input').type('cypress')
+                cy.get('#url-input').type('www.cypress.com')
+                cy.get('#submit-button').click()
+
+                cy.contains('new blog').click()
+                cy.get('#title-input').type('The title with the second most likes')
+                cy.get('#author-input').type('cypress')
+                cy.get('#url-input').type('www.cypress.com')
+                cy.get('#submit-button').click()
+            })
+
+            it('blogs are ordered by likes', function() {
+                cy.contains('The title with the most likes')
+                    .parent()
+                    .contains('view').click()
+                    .parent()
+                    .contains('like')
+                    .click()
+                    .click()
+                cy.contains('The title with the second most likes')
+                    .parent()
+                    .contains('view').click()
+                    .parent()
+                    .contains('like')
+                    .click()
+                cy.get('.blog').eq(0).should('contain', 'The title with the most likes')
+                cy.get('.blog').eq(1).should('contain', 'The title with the second most likes')
             })
         })
     })

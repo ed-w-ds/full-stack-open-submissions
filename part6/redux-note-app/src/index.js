@@ -1,52 +1,76 @@
-// notes app with redux
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import ReactDOM from 'react-dom/client';
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import App from './App';
 import noteReducer from './reducers/noteReducer'
 
 const store = createStore(noteReducer)
 
-store.dispatch({
-    type: 'NEW_NOTE',
-    payload: {
-        content: 'the app state is in redux store',
-        important: true,
-        id: 1
-    }
-})
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+)
 
-store.dispatch({
-    type: 'NEW_NOTE',
-    payload: {
-        content: 'state changes are made with actions',
-        important: false,
-        id: 2
-    }
-})
+// const renderApp = () => {
+//   ReactDOM.render(<App />, root);
+// };
 
-const App = () => {
-    return(
-      <div>
-        <ul>
-          {store.getState().map(note=>
-            <li key={note.id}>
-              {note.content} <strong>{note.important ? 'important' : ''}</strong>
-            </li>
-          )}
-          </ul>
-      </div>
-    )
-  }
+// renderApp();
+// store.subscribe(renderApp);
 
-const root = document.getElementById('root');
+// // notes app with redux
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import { createStore } from 'redux';
 
-const renderApp = () => {
-  ReactDOM.render(<App />, root);
-};
+// import noteReducer from './reducers/noteReducer'
 
-renderApp();
-store.subscribe(renderApp);
+// const store = createStore(noteReducer)
+
+// store.dispatch({
+//     type: 'NEW_NOTE',
+//     payload: {
+//         content: 'the app state is in redux store',
+//         important: true,
+//         id: 1
+//     }
+// })
+
+// store.dispatch({
+//     type: 'NEW_NOTE',
+//     payload: {
+//         content: 'state changes are made with actions',
+//         important: false,
+//         id: 2
+//     }
+// })
+
+// const App = () => {
+//     return(
+//       <div>
+//         <ul>
+//           {store.getState().map(note=>
+//             <li key={note.id}>
+//               {note.content} <strong>{note.important ? 'important' : ''}</strong>
+//             </li>
+//           )}
+//           </ul>
+//       </div>
+//     )
+//   }
+
+// const root = document.getElementById('root');
+
+// const renderApp = () => {
+//   ReactDOM.render(<App />, root);
+// };
+
+// renderApp();
+// store.subscribe(renderApp);
 
 // import React from 'react';
 // import ReactDOM from 'react-dom';

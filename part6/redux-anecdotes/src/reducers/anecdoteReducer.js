@@ -44,6 +44,7 @@ const reducer = (state = initialState, action) => {
 export const generateId = () =>
   Number((Math.random() * 1000000).toFixed(0))
 
+// action creators
 export const vote = (id) => {
   return {
     type: 'VOTE',

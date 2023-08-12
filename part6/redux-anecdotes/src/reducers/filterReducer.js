@@ -8,6 +8,7 @@ const filterReducer = (state = '', action) => {
     }
 }
 
+// action creator
 export const filterChange = filter => {
     return {
         type: 'SET_FILTER',

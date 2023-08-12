@@ -19,6 +19,8 @@ console.log('store.getState()', store.getState())
 
 console.log('store.getState().anecdotes', store.getState().anecdotes)
 
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <App />

@@ -1,18 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = [
-  {
-    content: 'reducer defines how redux store works',
-    important: true,
-    id: 1,
-  },
-  {
-    content: 'state of store can contain any data',
-    important: false,
-    id: 2,
-  },
-]
-
 const generateId = () =>
   Number((Math.random() * 1000000).toFixed(0))
 
@@ -20,20 +7,21 @@ const generateId = () =>
 const noteSlice = createSlice({
   // name replaces action type prefix
   name: 'notes',
-  initialState,
+  initialState: [],
   reducers: {
     // action creators are generated for each case reducer function
     // stored in redux store as type notes/createNote
     createNote(state, action) {
-      const content = action.payload
+      // const content = action.payload
       // we can now use immutable data structures
       // because immer library takes care of cloning - https://immerjs.github.io/immer/
       // basically object freezing out of the box
-      state.push({
-        content,
-        important: false,
-        id: generateId(),
-      })
+      // state.push({
+      //   content,
+      //   important: false,
+      //   id: generateId(),
+      // })
+      state.push(action.payload)
     },
     // stored in redux store as type notes/toggleImportanceOf
     toggleImportanceOf(state, action) {
@@ -50,11 +38,17 @@ const noteSlice = createSlice({
       return state.map(note =>
         note.id !== id ? note : changedNote 
       )     
+    },
+    appendNote(state, action) {
+      state.push(action.payload)
+    },
+    setNotes(state, action) {
+      return action.payload
     }
   },
 })
 
-export const { createNote, toggleImportanceOf } = noteSlice.actions
+export const { createNote, toggleImportanceOf, appendNote, setNotes } = noteSlice.actions
 export default noteSlice.reducer
 
 // const initialState = [

@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -17,50 +19,60 @@ const asObject = (anecdote) => {
   }
 }
 
+export const generateId = () =>
+  Number((Math.random() * 1000000).toFixed(0))
+
 const initialState = anecdotesAtStart.map(asObject)
 
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-  switch(action.type) {
-    case 'VOTE':
-      const id = action.payload.id
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    vote(state, action) {
+      console.log('action.payload', action.payload) 
+      const id = action.payload
       const anecdoteToChange = state.find(n => n.id === id)
+      console.log('anecdoteToChange', JSON.stringify(anecdoteToChange))
       const changedAnecdote = {
-        ...anecdoteToChange,
-        votes: anecdoteToChange.votes + 1
+          ...anecdoteToChange,
+          votes: anecdoteToChange.votes + 1
       }
       return state.map(anecdote =>
         anecdote.id !== id ? anecdote : changedAnecdote
       )
-    case 'NEW_ANECDOTE':
+    },
+    createAnecdote(state, action) {
       console.log('action.payload', action.payload)
-      return [...state, action.payload]
-    default:
-      return state
-  }
-}
-
-export const generateId = () =>
-  Number((Math.random() * 1000000).toFixed(0))
-
-// action creators
-export const vote = (id) => {
-  return {
-    type: 'VOTE',
-    payload: { id }
-  }
-}
-
-export const createAnecdote = (content) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    payload: {
-      content,
-      id: generateId(),
-      votes: 0
+      const content = action.payload
+      return state.concat({
+        content,
+        id: generateId(),
+        votes: 0
+      })
     }
   }
-}
+})
 
-export default anecdoteReducer
+// console.log('JSON parse state', JSON.parse(JSON.stringify(state)))
+
+// action creators
+// export const vote = (id) => {
+//   return {
+//     type: 'VOTE',
+//     payload: { id }
+//   }
+// }
+
+// export const createAnecdote = (content) => {
+//   return {
+//     type: 'NEW_ANECDOTE',
+//     payload: {
+//       content,
+//       id: generateId(),
+//       votes: 0
+//     }
+//   }
+// }
+
+export const {  createAnecdote, vote } = anecdoteSlice.actions
+export default anecdoteSlice.reducer

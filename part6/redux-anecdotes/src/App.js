@@ -13,7 +13,7 @@ const App = () => {
     anecdoteService.getAll().then(anecdotes =>
       dispatch(setAnecdotes(anecdotes))
     )
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps 
+  }, [AnecdoteList]) // eslint-disable-line react-hooks/exhaustive-deps 
 
   return (
     <div>

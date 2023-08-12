@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/anecdotes
+type: application/json
+
+{
+    "content": "If it hurts, do it more often!!!",
+    "votes": 0,
+    "id": "7"
+}

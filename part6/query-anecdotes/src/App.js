@@ -1,14 +1,16 @@
 // libraries and frameworks
-import { useQuery } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 // components
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 
 // requests
-import { getAnecdotes } from './requests'
+import { getAnecdotes, updateAnecdote } from './requests'
 
 const App = () => {
+  const queryClient = useQueryClient()
+
   const { data: anecdotes, status } = useQuery(
     // queryKey
     'anecdotes', 
@@ -21,6 +23,23 @@ const App = () => {
     })
   // const anecdotes = data is the same as using data: anecdotes in the object
 
+  const updateAnecdoteMutation = useMutation(updateAnecdote, {
+    onSuccess: (newAnecdote) => {
+      // queryClient.invalidateQueries('anecdotes')
+      // so we don't have to get all anecdotes again:
+      const anecdotes = queryClient.getQueryData('anecdotes')
+      const updatedAnecdotes = anecdotes.map(anecdote => anecdote.id === newAnecdote.id ? newAnecdote : anecdote)
+      queryClient.setQueryData('anecdotes', updatedAnecdotes)
+    },
+  })
+
+  const handleVote = (anecdote) => {
+    console.log('vote anecdote.id', anecdote.id)
+    console.log('vote anecdote.content', anecdote.content)
+    console.log('vote anecdote.votes', anecdote.votes)
+    updateAnecdoteMutation.mutate({...anecdote, votes: anecdote.votes + 1 })
+  }
+
   if (status === 'loading') {
     return <div>Loading anecdotes...</div>
   }
@@ -30,10 +49,6 @@ const App = () => {
   }
 
   console.log('anecdotes', anecdotes)
-
-  const handleVote = (anecdote) => {
-    console.log('vote')
-  }
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import noteService from '../services/notes'
 
 // stored in redux store as state.notes
 const noteSlice = createSlice({
@@ -45,7 +46,28 @@ const noteSlice = createSlice({
   },
 })
 
-export const { createNote, toggleImportanceOf, appendNote, setNotes } = noteSlice.actions
+// removed createNote action creator
+export const { toggleImportanceOf, appendNote, setNotes } = noteSlice.actions
+
+// thunk action creators
+export const initializeNotes = () => {
+  // although redux thunk functions require two arguments of dispatch and getState
+  // we don't have to pass getState when using arrow functions 
+  // but it's still available within the function's scope 
+  // due to how arrow functions capture their lexical environment.
+  return async dispatch => {
+    const notes = await noteService.getAll()
+    dispatch(setNotes(notes))
+  }
+}
+
+export const createNote = content => {
+  return async dispatch => {
+    const newNote = await noteService.createNew(content)
+    dispatch(appendNote(newNote))
+  }
+}
+
 export default noteSlice.reducer
 
 // const initialState = [

@@ -4,25 +4,21 @@ import { Provider } from 'react-redux'
 
 // redux toolkit solves the problem of having to write a lot of boilerplate code
 // to create the store, action creator, the reducer functions etc.
-import { configureStore } from '@reduxjs/toolkit'
 import App from './App'
-
-import noteService from './services/notes'
-import noteReducer, { setNotes } from './reducers/noteReducer'
-import filterReducer from './reducers/filterReducer'
+import store from './store'
 
 // configure store instead of createStore
 // and no need to combine reducers
-const store = configureStore({
-  reducer: {
-    notes: noteReducer,
-    filter: filterReducer
-  }
-})
+// const store = configureStore({
+//   reducer: {
+//     notes: noteReducer,
+//     filter: filterReducer
+//   }
+// })
 
-noteService.getAll().then(notes =>
-    store.dispatch(setNotes(notes))
-)
+// noteService.getAll().then(notes =>
+//     store.dispatch(setNotes(notes))
+// )
 
 console.log(store.getState())
 

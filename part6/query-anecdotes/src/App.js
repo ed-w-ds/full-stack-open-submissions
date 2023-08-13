@@ -16,7 +16,8 @@ const App = () => {
     getAnecdotes,
     {
       // options
-      retry: 1
+      retry: 1,
+      refetchOnWindowFocus: false
     })
   // const anecdotes = data is the same as using data: anecdotes in the object
 
@@ -29,8 +30,6 @@ const App = () => {
   }
 
   console.log('anecdotes', anecdotes)
-
-
 
   const handleVote = (anecdote) => {
     console.log('vote')

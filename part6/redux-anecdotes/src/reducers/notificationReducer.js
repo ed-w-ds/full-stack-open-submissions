@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const notificationSlice = createSlice({
     name: 'notification',
-    initialState: 'initial notification',
+    initialState: '',
     reducers: {
         // action creators are generated for each case reducer function
         setNotification(state, action) {
@@ -15,4 +15,15 @@ const notificationSlice = createSlice({
 })
 
 export const { setNotification, removeNotification } = notificationSlice.actions
+
+// thunk action creators
+export const setNotificationWithTimeout = (notification, timeout) => {
+    return async dispatch => {
+        dispatch(setNotification(notification))
+        setTimeout(() => {
+            dispatch(removeNotification())
+        }, timeout * 1000)
+    }
+}
+
 export default notificationSlice.reducer

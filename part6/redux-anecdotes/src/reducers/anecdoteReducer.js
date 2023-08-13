@@ -21,11 +21,12 @@ const anecdoteSlice = createSlice({
         anecdote.id !== id ? anecdote : changedAnecdote
       )
     },
-    createAnecdote(state, action) {
-      state.push(action.payload)
-    },
+    // createAnecdote(state, action) {
+    //   state.push(action.payload)
+    // },
     appendAnecdote(state, action) {
-      return state.push(action.payload)
+      // push works with immer if i don't use return
+      state.push(action.payload)
     },
     setAnecdotes(state, action) {
       return action.payload
@@ -33,13 +34,20 @@ const anecdoteSlice = createSlice({
   }
 })
 
-
-export const {  createAnecdote, vote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
+// removed createAnecdote action creator
+export const { vote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
 
 export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
     dispatch(setAnecdotes(anecdotes))
+  }
+}
+
+export const createAnecdote = content => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch(appendAnecdote(newAnecdote))
   }
 }
 

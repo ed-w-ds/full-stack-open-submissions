@@ -6,6 +6,10 @@ export const notificationReducer = (state, action) => {
       return action.data
     case 'CLEAR_NOTIFICATION':
       return ''
+    case 'SET_ERROR':
+      return 'too short, must be at least 5 characters'
+    case 'CLEAR_ERROR':
+      return ''
     default:
       return state
   }

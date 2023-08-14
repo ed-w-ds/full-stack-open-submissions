@@ -8,6 +8,8 @@ import Notification from './components/Notification'
 // requests
 import { getAnecdotes, updateAnecdote } from './requests'
 
+import { useNotificationDispatch } from './CreateContext'
+
 const App = () => {
   const queryClient = useQueryClient()
 
@@ -33,11 +35,18 @@ const App = () => {
     },
   })
 
+
+  const dispatch = useNotificationDispatch()
+  
   const handleVote = (anecdote) => {
     console.log('vote anecdote.id', anecdote.id)
     console.log('vote anecdote.content', anecdote.content)
     console.log('vote anecdote.votes', anecdote.votes)
     updateAnecdoteMutation.mutate({...anecdote, votes: anecdote.votes + 1 })
+    dispatch({ type: 'SET_NOTIFICATION', data: `you voted '${anecdote.content}'` })
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_NOTIFICATION' })
+    }, 3000)
   }
 
   if (status === 'loading') {

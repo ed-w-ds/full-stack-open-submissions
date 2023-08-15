@@ -66,9 +66,11 @@ const CreateNew = (props) => {
   // const [content, setContent] = useState('')
   // const [author, setAuthor] = useState('')
   // const [info, setInfo] = useState('')
-  const content = useField()
-  const author = useField()
-  const info = useField()
+  // <input type="text"> (default value) so there's no point in using
+  // a parameter identifying the type
+  const {reset: resetContent, ...content} = useField()
+  const {reset: resetAuthor, ...author} = useField()
+  const {reset: resetInfo, ...info} = useField()
 
   const navigate = useNavigate()
   const handleSubmit = (e) => {
@@ -80,6 +82,13 @@ const CreateNew = (props) => {
       votes: 0
     })
     navigate('/')
+  }
+
+  const handleReset = (e) => {
+    e.preventDefault()
+    resetContent()
+    resetAuthor()
+    resetInfo()
   }
 
   return (
@@ -102,6 +111,7 @@ const CreateNew = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button type="reset" onClick={handleReset}>reset</button>
       </form>
     </div>
   )

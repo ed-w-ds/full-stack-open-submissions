@@ -19,7 +19,7 @@ const Blog = ({blog, updateBlog, deleteBlog, user}) => {
       updateBlog(blog.id, { ...blog, likes: likes + 1 }, blog.user.name)
     }
     else {
-      updateBlog(blog.id, { ...blog, likes: likes + 1 }, user.name)
+      updateBlog(blog.id, { ...blog, likes: likes + 1 }, '')
     }
   //   updateBlog(blog.id, { ...blog, likes: likes + 1 }, blog.user.name)
   }

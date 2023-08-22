@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -20,8 +21,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [successMessage, setSuccessMessage] = useState(null)
+  // const [errorMessage, setErrorMessage] = useState(null)
+  // const [successMessage, setSuccessMessage] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -35,7 +36,7 @@ const App = () => {
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     }
     getBlogs()
-  }, [user, successMessage])
+  }, [user]) //setsuccessmessage
   // add success message in the dependency array
   // so the blog list is updated when a blog has more likes than the blog above
 
@@ -66,10 +67,10 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       console.log('Wrong credentials')
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      // setErrorMessage('Wrong credentials')
+      // setTimeout(() => {
+      //   setErrorMessage(null)
+      // }, 5000)
     }
   }
 
@@ -146,18 +147,18 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
-      setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+      // setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
+      // setTimeout(() => {
+      //   setSuccessMessage(null)
+      // }, 5000)
     } catch (exception) {
       console.log('Error adding blog')
       console.log(exception)
 
-      setErrorMessage('Error adding blog')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      // setErrorMessage('Error adding blog')
+      // setTimeout(() => {
+      //   setErrorMessage(null)
+      // }, 5000)
     }
   }
 
@@ -174,18 +175,18 @@ const App = () => {
       }
 
       setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
-      setSuccessMessage(`Blog ${blog.title} by ${blog.author} updated`)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+      // setSuccessMessage(`Blog ${blog.title} by ${blog.author} updated`)
+      // setTimeout(() => {
+      //   setSuccessMessage(null)
+      // }, 5000)
     } catch (exception) {
       console.log('Error updating blog')
       console.log('exception', exception)
 
-      setErrorMessage('Error updating blog')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      // setErrorMessage('Error updating blog')
+      // setTimeout(() => {
+      //   setErrorMessage(null)
+      // }, 5000)
     }
   }
 
@@ -197,38 +198,39 @@ const App = () => {
       await blogService.deleteBlog(id)
 
       setBlogs(blogs.filter(blog => blog.id !== id))
-      setSuccessMessage('Blog deleted')
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+      // setSuccessMessage('Blog deleted')
+      // setTimeout(() => {
+      //   setSuccessMessage(null)
+      // }, 5000)
     } catch (exception) {
       console.log('Error deleting blog')
       console.log('exception', exception)
 
-      setErrorMessage('Error deleting blog')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      // setErrorMessage('Error deleting blog')
+      // setTimeout(() => {
+      //   setErrorMessage(null)
+      // }, 5000)
     }
   }
 
   // notification
-  const Notification = ({ message, type }) => {
-    if (message === null) {
-      return null
-    }
+  // const Notification = ({ message, type }) => {
+  //   if (message === null) {
+  //     return null
+  //   }
 
-    return (
-      <div className={type === 'error' ? 'error' : 'success'}>
-        {message}
-      </div>
-    )
-  }
+  //   return (
+  //     <div className={type === 'error' ? 'error' : 'success'}>
+  //       {message}
+  //     </div>
+  //   )
+  // }
   // return app
   return (
     <>
-      <Notification message={errorMessage} type="error" />
-      <Notification message={successMessage} type="success" />
+      {/* <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" /> */}
+      <Notification />
 
       {user === null ?
         loginForm()

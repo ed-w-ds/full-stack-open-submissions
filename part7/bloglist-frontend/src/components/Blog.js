@@ -1,10 +1,14 @@
 /* eslint-disable */
+import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { setNotificationWithTimeout } from '../reducers/notificationReducer'
 
 const Blog = ({blog, updateBlog, deleteBlog, user}) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
+
+  const dispatch = useDispatch()
 
   const hideWhenShowDetails = { display: showDetails ? '' : 'none' }
   const buttonLabel = showDetails ? 'hide' : 'view'
@@ -21,13 +25,16 @@ const Blog = ({blog, updateBlog, deleteBlog, user}) => {
     else {
       updateBlog(blog.id, { ...blog, likes: likes + 1 }, '')
     }
+    console.log(blog)
+    dispatch(setNotificationWithTimeout(`you voted '${blog.title}' by ${blog.author}`, 5))
   //   updateBlog(blog.id, { ...blog, likes: likes + 1 }, blog.user.name)
   }
 
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
       deleteBlog(blog.id)
-    }    
+    }
+    dispatch(setNotificationWithTimeout(`you deleted '${blog.title}'`, 5))
   }
 
   const blogStyle = {

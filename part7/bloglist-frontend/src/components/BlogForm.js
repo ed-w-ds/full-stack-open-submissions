@@ -1,9 +1,13 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotificationWithTimeout } from '../reducers/notificationReducer'
 
 const BlogForm = ({ createBlog }) => {
     const [newBlog, setNewBlog] = useState('')
     const [newAuthor, setNewAuthor] = useState('')
     const [newUrl, setNewUrl] = useState('')
+
+    const dispatch = useDispatch()
 
     const addBlog = (event) => {
         event.preventDefault()
@@ -21,6 +25,8 @@ const BlogForm = ({ createBlog }) => {
         setNewBlog('')
         setNewAuthor('')
         setNewUrl('')
+
+        dispatch(setNotificationWithTimeout(`a new blog ${newBlog} by ${newAuthor} added`, 5))
     }
 
     return (

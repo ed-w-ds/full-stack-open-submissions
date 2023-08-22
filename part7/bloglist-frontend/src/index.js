@@ -11,8 +11,6 @@ import store from './store'
 console.log('store.getState()', store.getState())
 console.log('store.getState().notification', store.getState().notification)
 
-
-
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <App />

@@ -3,6 +3,8 @@
 /*eslint quotes: ["error", "single"]*/
 /* eslint no-unused-vars: 0 */
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotificationWithTimeout } from './reducers/notificationReducer'
 
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
@@ -21,8 +23,10 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [reload, setReload] = useState(false)
   // const [errorMessage, setErrorMessage] = useState(null)
   // const [successMessage, setSuccessMessage] = useState(null)
+  const dispatch = useDispatch()
 
   const blogFormRef = useRef()
 
@@ -36,7 +40,7 @@ const App = () => {
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     }
     getBlogs()
-  }, [user]) //setsuccessmessage
+  }, [user, reload]) //setsuccessmessage
   // add success message in the dependency array
   // so the blog list is updated when a blog has more likes than the blog above
 
@@ -71,6 +75,7 @@ const App = () => {
       // setTimeout(() => {
       //   setErrorMessage(null)
       // }, 5000)
+      dispatch(setNotificationWithTimeout('Wrong credentials', 5))
     }
   }
 
@@ -159,6 +164,7 @@ const App = () => {
       // setTimeout(() => {
       //   setErrorMessage(null)
       // }, 5000)
+      dispatch(setNotificationWithTimeout('Error adding blog', 5))
     }
   }
 
@@ -175,6 +181,7 @@ const App = () => {
       }
 
       setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+      reload ? setReload(false) : setReload(true)
       // setSuccessMessage(`Blog ${blog.title} by ${blog.author} updated`)
       // setTimeout(() => {
       //   setSuccessMessage(null)
@@ -187,6 +194,7 @@ const App = () => {
       // setTimeout(() => {
       //   setErrorMessage(null)
       // }, 5000)
+      dispatch(setNotificationWithTimeout('Error updating blog', 5))
     }
   }
 
@@ -210,10 +218,12 @@ const App = () => {
       // setTimeout(() => {
       //   setErrorMessage(null)
       // }, 5000)
+      dispatch(setNotificationWithTimeout('Error deleting blog', 5))
     }
   }
 
   // notification
+
   // const Notification = ({ message, type }) => {
   //   if (message === null) {
   //     return null
@@ -226,16 +236,21 @@ const App = () => {
   //   )
   // }
   // return app
+
   return (
     <>
       {/* <Notification message={errorMessage} type="error" />
       <Notification message={successMessage} type="success" /> */}
-      <Notification />
 
       {user === null ?
-        loginForm()
+        <>
+          <Notification />
+          <h2>Log in to application</h2>
+          {loginForm()}
+        </>
         :
         <>
+          <Notification />
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
             <BlogForm
               createBlog={ addBlog }

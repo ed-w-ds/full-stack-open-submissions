@@ -8,8 +8,6 @@ const Blog = ({blog, updateBlog, deleteBlog, user}) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
-  console.log('user in BLog', user)
-  console.log('blog.user in BLog', blog.user)
   const dispatch = useDispatch()
 
   const hideWhenShowDetails = { display: showDetails ? '' : 'none' }

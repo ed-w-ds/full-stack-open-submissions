@@ -1,30 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
+// import userService from '../services/users'
 
-const userSlice = createSlice({
-    name: 'user',
+const usersSlice = createSlice({
+    name: 'users',
     initialState: null,
     reducers: {
         // action creators are generated for each case reducer function
-        setUser(state, action) {
+        setUsers(state, action) {
             return action.payload
-        },
-        removeUser() {
-            return ''
         }
     }
 })
 
-export const { setUser, removeUser } = userSlice.actions
+export const { setUsers } = usersSlice.actions
 
-export const setUserWithTimeout = (user) => {
+export const getUsers = (users) => {
     return async dispatch => {
-        dispatch(setUser(user))
-        console.log('user in setUserWithTimeout', user)
-        setTimeout(() => {
-            dispatch(removeUser())
-            window.localStorage.removeItem('loggedNoteappUser')
-        }, 3600000) // 3600000 ms = 1 hour
+        // const users = await userService.getAllUsers()
+        // console.log('users in getUsers', users)
+        dispatch(setUsers(users))
     }
 }
 
-export default userSlice.reducer
+export default usersSlice.reducer

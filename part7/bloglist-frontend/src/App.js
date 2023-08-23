@@ -7,7 +7,8 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { setNotificationWithTimeout } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
-import { setUserWithTimeout } from './reducers/usersReducer'
+import { setUserWithTimeout } from './reducers/userReducer'
+import { getUsers } from './reducers/usersReducer'
 
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
@@ -15,8 +16,16 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import userService from './services/users'
+
 
 import './index.css'
+
+// routing
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
 
 const App = () => {
   // const [blogs, setBlogs] = useState([])
@@ -43,7 +52,6 @@ const App = () => {
         return
       }
       dispatch(initializeBlogs())
-      dispatch(initializeBlogs())
     }
     getBlogs()
   }, [user, reload]) //setsuccessmessage
@@ -62,6 +70,17 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  // get all users
+  useEffect(() => {
+    const getTheUsers = async () => {
+      const users = await userService.getAllUsers()
+      console.log('users in app', users)
+      dispatch(getUsers(users))
+    }
+    getTheUsers()
+  }, [])
+
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -128,8 +147,6 @@ const App = () => {
   // show blogs
   const showBlogs = () => (
     <div id="blog">
-      <h2>blogs</h2>
-      <p>{user.name} logged-in <button onClick={ logout }>logout</button></p>
       {blogs.map(blog =>
         <Blog
           key={blog.id}
@@ -236,26 +253,41 @@ const App = () => {
     }
   }
 
-  // notification
+  const ShowUsers = () => {
+    const users = useSelector(state => state.users)
+    console.log('users in showusers', users)
 
-
-  // const Notification = ({ message, type }) => {
-  //   if (message === null) {
-  //     return null
-  //   }
-
-  //   return (
-  //     <div className={type === 'error' ? 'error' : 'success'}>
-  //       {message}
-  //     </div>
-  //   )
-  // }
-  // return app
+    return (
+      <div>
+        <h2>Users</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>user</th>
+              <th>blogs created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user =>
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.blogs.length}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
 
   return (
-    <>
+    <Router>
       {/* <Notification message={errorMessage} type="error" />
       <Notification message={successMessage} type="success" /> */}
+      <div>
+        <Link to="/">home</Link>
+        <Link to="/users">users</Link>
+      </div>
 
       {user === null ?
         <>
@@ -266,19 +298,25 @@ const App = () => {
         :
         <>
           <Notification />
-          <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-            {/* <BlogForm
-              // createBlog={ addBlog }
-            /> */}
-            <BlogForm
-              user = {user}
-              onSubmit={ () => setReload(!reload) }
-            />
-          </Togglable>
-          {showBlogs()}
+          <h2>blogs</h2>
+          <p>{user.name} logged-in <button onClick={ logout }>logout</button></p>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
+                  <BlogForm
+                    user = {user}
+                    onSubmit={ () => setReload(!reload) }
+                  />
+                </Togglable>
+                {showBlogs()}
+              </>
+            } />
+            <Route path="/users" element={<ShowUsers />} />
+          </Routes>
         </>
       }
-    </>
+    </Router>
   )
 }
 

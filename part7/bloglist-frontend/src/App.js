@@ -20,6 +20,7 @@ import './index.css'
 
 const App = () => {
   // const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   // const [user, setUser] = useState(null)
@@ -41,6 +42,7 @@ const App = () => {
       if (!user) {
         return
       }
+      dispatch(initializeBlogs())
       dispatch(initializeBlogs())
     }
     getBlogs()
@@ -265,6 +267,9 @@ const App = () => {
         <>
           <Notification />
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
+            {/* <BlogForm
+              // createBlog={ addBlog }
+            /> */}
             <BlogForm
               user = {user}
               onSubmit={ () => setReload(!reload) }

@@ -4,7 +4,9 @@
 /* eslint no-unused-vars: 0 */
 import { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { setNotificationWithTimeout } from './reducers/notificationReducer'
+import { initializeBlogs } from './reducers/blogsReducer'
 
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
@@ -16,7 +18,7 @@ import loginService from './services/login'
 import './index.css'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -36,13 +38,15 @@ const App = () => {
       if (!user) {
         return
       }
-      const blogs = await blogService.getAll()
-      setBlogs(blogs.sort((a, b) => b.likes - a.likes))
+      dispatch(initializeBlogs())
     }
     getBlogs()
   }, [user, reload]) //setsuccessmessage
   // add success message in the dependency array
   // so the blog list is updated when a blog has more likes than the blog above
+  const blogs = useSelector(state => state.blogs)
+  console.log('blogs in app', blogs)
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -131,46 +135,46 @@ const App = () => {
     </div>
   )
 
-  // add blog
-  const addBlog = async (blogObject) => {
-    console.log('adding blog', blogObject)
-    console.log('user', user)
-    console.log('user name', user.name)
+  // // add blog
+  // const addBlog = async (blogObject) => {
+  //   console.log('adding blog', blogObject)
+  //   console.log('user', user)
+  //   console.log('user name', user.name)
 
-    try {
-      blogFormRef.current.toggleVisibility()
+  //   try {
+  //     blogFormRef.current.toggleVisibility()
 
-      const blog = await blogService.createBlog(blogObject)
+  //     const blog = await blogService.createBlog(blogObject)
 
-      const updatedBlog = {
-        ...blog,
-        user: {
-          name: user.name
-        }
-      }
-      setBlogs(blogs.concat(updatedBlog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      // setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
-      // setTimeout(() => {
-      //   setSuccessMessage(null)
-      // }, 5000)
-    } catch (exception) {
-      console.log('Error adding blog')
-      console.log(exception)
+  //     const updatedBlog = {
+  //       ...blog,
+  //       user: {
+  //         name: user.name
+  //       }
+  //     }
+  //     setBlogs(blogs.concat(updatedBlog))
+  //     setTitle('')
+  //     setAuthor('')
+  //     setUrl('')
+  //     // setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
+  //     // setTimeout(() => {
+  //     //   setSuccessMessage(null)
+  //     // }, 5000)
+  //   } catch (exception) {
+  //     console.log('Error adding blog')
+  //     console.log(exception)
 
-      // setErrorMessage('Error adding blog')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
-      dispatch(setNotificationWithTimeout('Error adding blog', 5))
-    }
-  }
+  //     // setErrorMessage('Error adding blog')
+  //     // setTimeout(() => {
+  //     //   setErrorMessage(null)
+  //     // }, 5000)
+  //     dispatch(setNotificationWithTimeout('Error adding blog', 5))
+  //   }
+  // }
+
 
   //update blog
   const updateBlog = async (id, blogObject, blogUserName) => {
-
     try {
       const blog = await blogService.updateBlog(id, blogObject)
       const updatedBlog = await {
@@ -180,7 +184,8 @@ const App = () => {
         }
       }
 
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+      // IMPORTANT setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
+      blogs.map(blog => blog.id !== id ? blog : updatedBlog)
       reload ? setReload(false) : setReload(true)
       // setSuccessMessage(`Blog ${blog.title} by ${blog.author} updated`)
       // setTimeout(() => {
@@ -205,7 +210,9 @@ const App = () => {
     try {
       await blogService.deleteBlog(id)
 
-      setBlogs(blogs.filter(blog => blog.id !== id))
+      // setBlogs(blogs.filter(blog => blog.id !== id))
+      blogs.filter(blog => blog.id !== id)
+      reload ? setReload(false) : setReload(true)
       // setSuccessMessage('Blog deleted')
       // setTimeout(() => {
       //   setSuccessMessage(null)
@@ -223,6 +230,7 @@ const App = () => {
   }
 
   // notification
+
 
   // const Notification = ({ message, type }) => {
   //   if (message === null) {
@@ -252,8 +260,12 @@ const App = () => {
         <>
           <Notification />
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
+            {/* <BlogForm
+              // createBlog={ addBlog }
+            /> */}
             <BlogForm
-              createBlog={ addBlog }
+              user = {user}
+              onSubmit={ () => setReload(!reload) }
             />
           </Togglable>
           {showBlogs()}

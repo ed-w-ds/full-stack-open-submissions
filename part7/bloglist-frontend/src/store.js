@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 // import blogsService from './services/blogs'
 // import { setBlogs } from './reducers/blogsReducer'
 import notificationReducer from './reducers/notificationReducer'
+import blogsReducer from './reducers/blogsReducer'
 
 // blogsService.getAll().then(blogs =>
 //     store.dispatch(setBlogs(blogs))
@@ -10,7 +11,7 @@ import notificationReducer from './reducers/notificationReducer'
 
 const store = configureStore({
     reducer: {
-        // blogs: blogsReducer,
+        blogs: blogsReducer,
         notification: notificationReducer
     }
 })

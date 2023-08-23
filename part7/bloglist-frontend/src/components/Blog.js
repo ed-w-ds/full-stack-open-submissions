@@ -8,8 +8,6 @@ const Blog = ({blog, updateBlog, deleteBlog, user}) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
-  console.log('user in BLog', user)
-  console.log('blog.user in BLog', blog.user)
   const dispatch = useDispatch()
 
   const hideWhenShowDetails = { display: showDetails ? '' : 'none' }
@@ -27,7 +25,6 @@ const Blog = ({blog, updateBlog, deleteBlog, user}) => {
     else {
       updateBlog(blog.id, { ...blog, likes: likes + 1 }, '')
     }
-    console.log(blog)
     dispatch(setNotificationWithTimeout(`you voted '${blog.title}' by ${blog.author}`, 5))
   //   updateBlog(blog.id, { ...blog, likes: likes + 1 }, blog.user.name)
   }

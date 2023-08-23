@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { setNotificationWithTimeout } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
+import { setUserWithTimeout } from './reducers/usersReducer'
 
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
@@ -21,16 +22,18 @@ const App = () => {
   // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  // const [user, setUser] = useState(null)
+  // const [title, setTitle] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [url, setUrl] = useState('')
   const [reload, setReload] = useState(false)
   // const [errorMessage, setErrorMessage] = useState(null)
   // const [successMessage, setSuccessMessage] = useState(null)
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
+
+  const user = useSelector(state => state.user)
 
   // get all blogs
   useEffect(() => {
@@ -52,7 +55,8 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUserWithTimeout(user))
+      // setUser(user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -70,7 +74,8 @@ const App = () => {
       window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUserWithTimeout(user))
+      // setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -260,9 +265,6 @@ const App = () => {
         <>
           <Notification />
           <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-            {/* <BlogForm
-              // createBlog={ addBlog }
-            /> */}
             <BlogForm
               user = {user}
               onSubmit={ () => setReload(!reload) }

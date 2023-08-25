@@ -11,6 +11,7 @@ import { setUserWithTimeout } from './reducers/userReducer'
 import { getUsers } from './reducers/usersReducer'
 
 import Blog from './components/Blog'
+import ShowBlog from './components/ShowBlog'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
@@ -28,17 +29,9 @@ import {
 } from 'react-router-dom'
 
 const App = () => {
-  // const [blogs, setBlogs] = useState([])
-  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // const [user, setUser] = useState(null)
-  // const [title, setTitle] = useState('')
-  // const [author, setAuthor] = useState('')
-  // const [url, setUrl] = useState('')
   const [reload, setReload] = useState(false)
-  // const [errorMessage, setErrorMessage] = useState(null)
-  // const [successMessage, setSuccessMessage] = useState(null)
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
@@ -96,15 +89,10 @@ const App = () => {
 
       blogService.setToken(user.token)
       dispatch(setUserWithTimeout(user))
-      // setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
       console.log('Wrong credentials')
-      // setErrorMessage('Wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
       dispatch(setNotificationWithTimeout('Wrong credentials', 5))
     }
   }
@@ -211,18 +199,10 @@ const App = () => {
       // IMPORTANT setBlogs(blogs.map(blog => blog.id !== id ? blog : updatedBlog))
       blogs.map(blog => blog.id !== id ? blog : updatedBlog)
       reload ? setReload(false) : setReload(true)
-      // setSuccessMessage(`Blog ${blog.title} by ${blog.author} updated`)
-      // setTimeout(() => {
-      //   setSuccessMessage(null)
-      // }, 5000)
     } catch (exception) {
       console.log('Error updating blog')
       console.log('exception', exception)
 
-      // setErrorMessage('Error updating blog')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
       dispatch(setNotificationWithTimeout('Error updating blog', 5))
     }
   }
@@ -237,18 +217,10 @@ const App = () => {
       // setBlogs(blogs.filter(blog => blog.id !== id))
       blogs.filter(blog => blog.id !== id)
       reload ? setReload(false) : setReload(true)
-      // setSuccessMessage('Blog deleted')
-      // setTimeout(() => {
-      //   setSuccessMessage(null)
-      // }, 5000)
     } catch (exception) {
       console.log('Error deleting blog')
       console.log('exception', exception)
 
-      // setErrorMessage('Error deleting blog')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
       dispatch(setNotificationWithTimeout('Error deleting blog', 5))
     }
   }
@@ -302,10 +274,10 @@ const App = () => {
     )
   }
 
+  const useParamsTester = 'useParamsTester'
+
   return (
     <Router>
-      {/* <Notification message={errorMessage} type="error" />
-      <Notification message={successMessage} type="success" /> */}
       <div>
         <Link to="/">home</Link>
         <Link to="/users">users</Link>
@@ -334,8 +306,13 @@ const App = () => {
                 {showBlogs()}
               </>
             } />
-            <Route path="/users" element={<ShowUsers />} />
-            <Route path="/users/:id" element={<ShowUserBlogs />} />
+            <Route path="/users" element={ <ShowUsers /> } />
+            <Route path="/users/:id" element={ <ShowUserBlogs /> } />
+            <Route path="/blogs/:id" element={ <ShowBlog
+              updateBlog={updateBlog}
+              deleteBlog={deleteBlog}
+              user={user}
+            />} />
           </Routes>
         </>
       }

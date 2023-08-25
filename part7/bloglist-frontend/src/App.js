@@ -274,13 +274,12 @@ const App = () => {
     )
   }
 
-  const useParamsTester = 'useParamsTester'
-
   return (
     <Router>
-      <div>
+      <div className='navStyle'>
         <Link to="/">home</Link>
         <Link to="/users">users</Link>
+        { user === null ? null : <><em>{user.name} logged-in</em> <button onClick={logout}>logout</button></>}
       </div>
 
       {user === null ?
@@ -293,7 +292,6 @@ const App = () => {
         <>
           <Notification />
           <h2>blogs</h2>
-          <p>{user.name} logged-in <button onClick={ logout }>logout</button></p>
           <Routes>
             <Route path="/" element={
               <>

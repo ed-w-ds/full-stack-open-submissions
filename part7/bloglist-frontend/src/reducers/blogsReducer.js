@@ -12,7 +12,16 @@ const blogSlice = createSlice({
         setBlogs(state, action) {
             console.log('action.payload in blogSlice/setNotes', action.payload)
             return action.payload
-        }
+        },
+        // updateLikes(state, action) {
+        //     const id = action.payload.id
+        //     const blogToChange = state.find(blog => blog.id === id)
+        //     const changedBlog = {
+        //         ...blogToChange,
+        //         likes: action.payload.likes
+        //     }
+        //     return state.map(blog => blog.id !== id ? blog : changedBlog)
+        // },
     },
 })
 
@@ -36,9 +45,25 @@ export const createNewBlog = (blogObject, user) => {
                 name: user.name
             }
         }
-        console.log('newBlog in createNewBlog red', newBlog)
+        console.log('newBlog in createNewBlog from blogsreducer', newBlog)
         dispatch(appendBlog(updatedBlog))
     }
 }
+
+export const createNewComment = (id, commentObject) => {
+    return async dispatch => {
+        const newComment = await blogService.createComment(id, commentObject)
+        console.log('newComment in createNewComment from blogsreducer', newComment)
+        dispatch(initializeBlogs())
+    }
+}
+
+// export const updateLikesInBlog = (id, blogObject) => {
+//     return async dispatch => {
+//         const updatedBlog = await blogService.updateBlog(id, blogObject)
+//         console.log('updatedBlog in updateLikesInBlog from blogsreducer', updatedBlog)
+//         dispatch(initializeBlogs())
+//     }
+// }
 
 export default blogSlice.reducer

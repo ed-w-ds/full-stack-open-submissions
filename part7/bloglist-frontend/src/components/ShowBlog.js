@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { setNotificationWithTimeout } from '../reducers/notificationReducer'
+import { createNewComment } from '../reducers/blogsReducer'
 
 const ShowBlog = ({updateBlog, deleteBlog, user}) => {
     const id = useParams().id
@@ -33,11 +34,23 @@ const ShowBlog = ({updateBlog, deleteBlog, user}) => {
         dispatch(setNotificationWithTimeout(`you deleted '${blog.title}'`, 5))
     }
 
+    const addComment = (event) => {
+        event.preventDefault()
+        const eve = event.target.Comment.value
+        const commentObject = {
+            comment: eve
+        }
+        dispatch(createNewComment(blog.id, commentObject))
+        dispatch(setNotificationWithTimeout(`you commented '${eve}' on '${blog.title}'`, 5))
+        event.target.Comment.value = ''
+    }
+
     const getComments = () => {
         if (blog.comments) {
             return (
                 <>
                     <h3>Comments</h3>
+                    <CommentForm />
                     <ul>
                         {blog.comments.map(comment => <li key={comment}>{comment}</li>)}
                     </ul>
@@ -48,10 +61,25 @@ const ShowBlog = ({updateBlog, deleteBlog, user}) => {
             return (
                 <>
                     <h3>Comments</h3>
+                    <CommentForm />
                     <p>No comments yet... Be the first to add one!</p>
                 </>
             )
         }
+    }
+
+    // reformat
+    const CommentForm = () => {
+        return (
+            <form onSubmit={addComment}>
+                <input
+                    id='comment-input'
+                    name="Comment"
+                    placeholder='comment'
+                />
+                <button type="submit">add comment</button>
+            </form>
+        )
     }
 
     const blogStyle = {

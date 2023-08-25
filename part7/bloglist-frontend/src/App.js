@@ -279,7 +279,7 @@ const App = () => {
       <div className='navStyle'>
         <Link to="/">home</Link>
         <Link to="/users">users</Link>
-        { user === null ? null : <><em>{user.name} logged-in</em> <button onClick={logout}>logout</button></>}
+        { user === null ? null : <><b>{user.name} logged-in</b> <button onClick={logout}>logout</button></>}
       </div>
 
       {user === null ?

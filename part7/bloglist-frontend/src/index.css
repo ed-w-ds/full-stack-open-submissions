@@ -32,7 +32,6 @@
     padding: 5px;
 }
 
-.navStyle em {
-    font-weight: bold;
+.navStyle b {
     color: black;
 }

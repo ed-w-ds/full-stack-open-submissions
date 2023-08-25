@@ -33,6 +33,27 @@ const ShowBlog = ({updateBlog, deleteBlog, user}) => {
         dispatch(setNotificationWithTimeout(`you deleted '${blog.title}'`, 5))
     }
 
+    const getComments = () => {
+        if (blog.comments) {
+            return (
+                <>
+                    <h3>Comments</h3>
+                    <ul>
+                        {blog.comments.map(comment => <li key={comment}>{comment}</li>)}
+                    </ul>
+                </>
+            )
+        }
+        else {
+            return (
+                <>
+                    <h3>Comments</h3>
+                    <p>No comments yet... Be the first to add one!</p>
+                </>
+            )
+        }
+    }
+
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -49,6 +70,7 @@ const ShowBlog = ({updateBlog, deleteBlog, user}) => {
             {(blog.user?.name) ? <p>{blog.user.name}</p> : null}
             {/* {<button onClick={ handleDelete } >remove</button>} */}
             {user.name === blog.user?.name ? <button onClick={ handleDelete } >remove</button> : null}
+            {getComments()}
         </div>
     )
 }

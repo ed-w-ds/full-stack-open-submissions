@@ -1,19 +1,22 @@
 /* eslint-disable */
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { setNotificationWithTimeout } from '../reducers/notificationReducer'
-import { createNewComment } from '../reducers/blogsReducer'
+import { createNewComment, initializeBlogs } from '../reducers/blogsReducer'
+
+// import blogService from '../services/blogs'
 
 const ShowBlog = ({updateBlog, deleteBlog, user}) => {
+    const dispatch = useDispatch()
     const id = useParams().id
     console.log('id', id)
-    const blog = useSelector(state => state.blogs.find(blog => blog.id === id))
+    const blogs = useSelector(state => state.blogs)
+    console.log('blogs', blogs)
+    const blog = blogs.find(blog => blog.id === id)
     console.log('blog', blog)
 
-    const [likes, setLikes] = useState(blog.likes)
-
-    const dispatch = useDispatch()
+    const [likes, setLikes] = useState(blog ? blog.likes : 0);
 
     // we could try getting the likes from the blog object in the store
     const handleLike = () => {
@@ -27,10 +30,12 @@ const ShowBlog = ({updateBlog, deleteBlog, user}) => {
         dispatch(setNotificationWithTimeout(`you voted '${blog.title}' by ${blog.author}`, 5))
     }
 
+    const navigate = useNavigate();
     const handleDelete = () => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
             deleteBlog(blog.id)
         }
+        navigate('/')
         dispatch(setNotificationWithTimeout(`you deleted '${blog.title}'`, 5))
     }
 

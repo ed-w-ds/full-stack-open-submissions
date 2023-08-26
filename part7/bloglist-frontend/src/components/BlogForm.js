@@ -2,6 +2,8 @@ import { useDispatch } from 'react-redux'
 import { createNewBlog } from '../reducers/blogsReducer'
 import { setNotificationWithTimeout } from '../reducers/notificationReducer'
 
+import { Box, TextField, Button } from '@mui/material'
+
 // const BlogForm = ({ createBlog }) => {
 const BlogForm = ({ user }) => {
     // const [newBlog, setNewBlog] = useState('')
@@ -42,42 +44,82 @@ const BlogForm = ({ user }) => {
         dispatch(setNotificationWithTimeout(`a new blog ${newBlog} by ${newAuthor} added`, 5))
     }
 
+    //     import Box from '@mui/material/Box';
+    // import TextField from '@mui/material/TextField';
+
+    // export default function FormPropsTextFields() {
+    //   return (
+    //     <Box
+    //       component="form"
+    //       sx={{
+    //         '& .MuiTextField-root': { m: 1, width: '25ch' },
+    //       }}
+    //       noValidate
+    //       autoComplete="off"
+    //     >
+    //       <div>
+    //         <TextField
+    //           required
+    //           id="outlined-required"
+    //           label="Required"
+    //           defaultValue="Hello World"
+    //         />
+    //         <TextField
+    //           disabled
+    //           id="outlined-disabled"
+    //           label="Disabled"
+    //           defaultValue="Hello World"
+    //         />
+    //         <TextField
+    //           id="outlined-password-input"
+    //           label="Password"
+    //           type="password"
+    //           autoComplete="current-password"
+    //         />
+
     return (
         <div>
             <h2>Create a new blog</h2>
-            <form onSubmit={addBlog}>
+            <Box
+                onSubmit={addBlog}
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+            >
                 <div>
-                    title:
-                    <input
+                    <TextField
+                        required
                         id='title-input'
                         // value={newBlog}
                         // onChange={(event) => setNewBlog(event.target.value)}
                         name="Title"
-                        placeholder='title'
+                        label='title'
                     />
-                </div>
-                <div>
-                    author:
-                    <input
+                    <TextField
+                        required
                         id='author-input'
                         // value={newAuthor}
                         // onChange={(event) => setNewAuthor(event.target.value)}
                         name="Author"
-                        placeholder='author'
+                        label='author'
                     />
-                </div>
-                <div>
-                    url:
-                    <input
+                    <TextField
                         id='url-input'
                         // value={newUrl}
                         // onChange={(event) => setNewUrl(event.target.value)}
                         name="Url"
-                        placeholder='url'
+                        label='url'
                     />
                 </div>
-                <button id="submit-button" type="submit">save</button>
-            </form>
+                <Button
+                    id="submit-button"
+                    type="submit"
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                > save </Button>
+            </Box>
         </div>
     )
 }

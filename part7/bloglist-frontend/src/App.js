@@ -19,6 +19,11 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import userService from './services/users'
 
+import { Container, Table, TableCell, TableContainer, TableHead, TableRow, Paper, Stack, Button, Box } from '@mui/material'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+// import Stack from '@mui/material/Stack';
+// import Button from '@mui/material/Button';
 
 import './index.css'
 
@@ -147,44 +152,6 @@ const App = () => {
     </div>
   )
 
-  // // add blog
-  // const addBlog = async (blogObject) => {
-  //   console.log('adding blog', blogObject)
-  //   console.log('user', user)
-  //   console.log('user name', user.name)
-
-  //   try {
-  //     blogFormRef.current.toggleVisibility()
-
-  //     const blog = await blogService.createBlog(blogObject)
-
-  //     const updatedBlog = {
-  //       ...blog,
-  //       user: {
-  //         name: user.name
-  //       }
-  //     }
-  //     setBlogs(blogs.concat(updatedBlog))
-  //     setTitle('')
-  //     setAuthor('')
-  //     setUrl('')
-  //     // setSuccessMessage(`A new blog ${blog.title} by ${blog.author} added`)
-  //     // setTimeout(() => {
-  //     //   setSuccessMessage(null)
-  //     // }, 5000)
-  //   } catch (exception) {
-  //     console.log('Error adding blog')
-  //     console.log(exception)
-
-  //     // setErrorMessage('Error adding blog')
-  //     // setTimeout(() => {
-  //     //   setErrorMessage(null)
-  //     // }, 5000)
-  //     dispatch(setNotificationWithTimeout('Error adding blog', 5))
-  //   }
-  // }
-
-
   //update blog
   const updateBlog = async (id, blogObject, blogUserName) => {
     try {
@@ -232,22 +199,24 @@ const App = () => {
     return (
       <div>
         <h2>Users</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>user</th>
-              <th>blogs created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user =>
-              <tr key={user.id}>
-                <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
-                <td>{user.blogs.length}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>user</TableCell>
+                <TableCell>blogs created</TableCell>
+              </TableRow>
+            </TableHead>
+            <tbody>
+              {users.map(user =>
+                <tr key={user.id}>
+                  <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
+                  <td>{user.blogs.length}</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </TableContainer>
       </div>
     )
   }
@@ -274,47 +243,73 @@ const App = () => {
     )
   }
 
-  return (
-    <Router>
-      <div className='navStyle'>
-        <Link to="/">home</Link>
-        <Link to="/users">users</Link>
-        { user === null ? null : <><b>{user.name} logged-in</b> <button onClick={logout}>logout</button></>}
-      </div>
+  // export default function BasicButtons() {
+  //   return (
+  //     <Stack spacing={2} direction="row">
+  //       <Button variant="text">Text</Button>
+  //       <Button variant="contained">Contained</Button>
+  //       <Button variant="outlined">Outlined</Button>
+  //     </Stack>
+  //   );
+  // }
 
-      {user === null ?
-        <>
-          <Notification />
-          <h2>Log in to application</h2>
-          {loginForm()}
-        </>
-        :
-        <>
-          <Notification />
-          <h2>blogs</h2>
-          <Routes>
-            <Route path="/" element={
-              <>
-                <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-                  <BlogForm
-                    user = {user}
-                    onSubmit={ () => setReload(!reload) }
-                  />
-                </Togglable>
-                {showBlogs()}
-              </>
-            } />
-            <Route path="/users" element={ <ShowUsers /> } />
-            <Route path="/users/:id" element={ <ShowUserBlogs /> } />
-            <Route path="/blogs/:id" element={ <ShowBlog
-              updateBlog={updateBlog}
-              deleteBlog={deleteBlog}
-              user={user}
-            />} />
-          </Routes>
-        </>
-      }
-    </Router>
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      color: 'white'
+    },
+  })
+
+  return (
+    <Container>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Router>
+          <div className='navStyle'>
+            <Link to="/">home</Link>
+            <Link to="/users">users</Link>
+            { user === null
+              ? null
+              : <><b>{user.name} logged-in</b>
+                <Button variant="contained" onClick={logout}>logout</Button>
+              </>}
+          </div>
+
+          {user === null ?
+            <>
+              <Notification />
+              <h2>Log in to application</h2>
+              {loginForm()}
+            </>
+            :
+            <>
+              <Notification />
+              <h2>blogs</h2>
+              <Routes>
+                <Route path="/" element={
+                  <>
+                    <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
+                      <BlogForm
+                        user = {user}
+                        onSubmit={ () => setReload(!reload) }
+                      />
+                    </Togglable>
+                    {showBlogs()}
+                  </>
+                } />
+                <Route path="/users" element={ <ShowUsers /> } />
+                <Route path="/users/:id" element={ <ShowUserBlogs /> } />
+                <Route path="/blogs/:id" element={ <ShowBlog
+                  updateBlog={updateBlog}
+                  deleteBlog={deleteBlog}
+                  user={user}
+                />} />
+              </Routes>
+            </>
+          }
+        </Router>
+      </ThemeProvider>
+    </Container>
   )
 }
 

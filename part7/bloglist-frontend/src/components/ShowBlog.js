@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useMatch } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { setNotificationWithTimeout } from '../reducers/notificationReducer'
 import { createNewComment, initializeBlogs } from '../reducers/blogsReducer'
@@ -11,9 +11,14 @@ const ShowBlog = ({updateBlog, deleteBlog, user}) => {
     const dispatch = useDispatch()
     const id = useParams().id
     console.log('id', id)
+
     const blogs = useSelector(state => state.blogs)
     console.log('blogs', blogs)
-    const blog = blogs.find(blog => blog.id === id)
+    // const blog = blogs.find(blog => blog.id === id)
+    // console.log('blog', blog)
+    const match = useMatch(`/blogs/${id}`)
+    console.log('match', match)
+    const blog = match ? blogs.find(blog => blog.id === id) : null
     console.log('blog', blog)
 
     const [likes, setLikes] = useState(blog ? blog.likes : 0);

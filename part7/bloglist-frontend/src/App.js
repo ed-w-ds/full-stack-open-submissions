@@ -264,50 +264,50 @@ const App = () => {
     <Container>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Router>
-          <div className='navStyle'>
-            <Link to="/">home</Link>
-            <Link to="/users">users</Link>
-            { user === null
-              ? null
-              : <><b>{user.name} logged-in</b>
-                <Button variant="contained" onClick={logout}>logout</Button>
-              </>}
-          </div>
+        {/* <Router> */}
+        <div className='navStyle'>
+          <Link to="/">home</Link>
+          <Link to="/users">users</Link>
+          { user === null
+            ? null
+            : <><b>{user.name} logged-in</b>
+              <Button variant="contained" onClick={logout}>logout</Button>
+            </>}
+        </div>
 
-          {user === null ?
-            <>
-              <Notification />
-              <h2>Log in to application</h2>
-              {loginForm()}
-            </>
-            :
-            <>
-              <Notification />
-              <h2>blogs</h2>
-              <Routes>
-                <Route path="/" element={
-                  <>
-                    <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
-                      <BlogForm
-                        user = {user}
-                        onSubmit={ () => setReload(!reload) }
-                      />
-                    </Togglable>
-                    {showBlogs()}
-                  </>
-                } />
-                <Route path="/users" element={ <ShowUsers /> } />
-                <Route path="/users/:id" element={ <ShowUserBlogs /> } />
-                <Route path="/blogs/:id" element={ <ShowBlog
-                  updateBlog={updateBlog}
-                  deleteBlog={deleteBlog}
-                  user={user}
-                />} />
-              </Routes>
-            </>
-          }
-        </Router>
+        {user === null ?
+          <>
+            <Notification />
+            <h2>Log in to application</h2>
+            {loginForm()}
+          </>
+          :
+          <>
+            <Notification />
+            <h2>blogs</h2>
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <Togglable buttonLabel="add new blog" ref={ blogFormRef }>
+                    <BlogForm
+                      user = {user}
+                      onSubmit={ () => setReload(!reload) }
+                    />
+                  </Togglable>
+                  {showBlogs()}
+                </>
+              } />
+              <Route path="/users" element={ <ShowUsers /> } />
+              <Route path="/users/:id" element={ <ShowUserBlogs /> } />
+              <Route path="/blogs/:id" element={ <ShowBlog
+                updateBlog={updateBlog}
+                deleteBlog={deleteBlog}
+                user={user}
+              />} />
+            </Routes>
+          </>
+        }
+        {/* </Router> */}
       </ThemeProvider>
     </Container>
   )

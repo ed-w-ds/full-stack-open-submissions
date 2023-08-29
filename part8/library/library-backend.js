@@ -1,6 +1,7 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
 const { v1: uuid } = require('uuid')
+const { GraphQLError } = require('graphql')
 
 let authors = [
   {
@@ -109,6 +110,7 @@ const typeDefs = `
 
     type Author {
         name: String!
+        born: Int
         id: ID!
         bookCount: Int!
     }
@@ -127,6 +129,10 @@ const typeDefs = `
             published: Int!
             genres: [String!]!
         ): Book
+        editAuthor(
+            name: String!
+            setBornTo: Int!
+        ): Author
     }
 `
 
@@ -159,6 +165,7 @@ const resolvers = {
   Author: {
     name: (root) => root.name,
     id: (root) => root.id,
+    born: (root) => root.born,
     bookCount: (root) => books.filter(b => b.author === root.name).length
   },
     Mutation: {
@@ -167,9 +174,31 @@ const resolvers = {
                 const author = { name: args.author, id: uuid() }
                 authors = authors.concat(author)
             }
+            if (books.find(b => b.title === args.title)) {
+                throw new GraphQLError('Title must be unique', {
+                    extensions: {
+                        code: 'BAD_USER_INPUT',
+                        invalidArgs: args.title
+                    }
+                })
+            }
             const book = { ...args, id: uuid() }
             books = books.concat(book)
             return book
+        },
+        editAuthor: (root, args) => {
+            const author = authors.find(a => a.name === args.name)
+            if (!author) {
+                throw new GraphQLError('Author not found', {
+                    extensions: {
+                        code: 'BAD_USER_INPUT',
+                        invalidArgs: args.name
+                    }
+                })
+            }
+            const updatedAuthor = { ...author, born: args.setBornTo }
+            authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
+            return updatedAuthor
         }
     }
 }

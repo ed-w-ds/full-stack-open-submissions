@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import BirthForm from './components/BirthForm'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -16,6 +17,7 @@ const App = () => {
       </div>
 
       <Authors show={page === 'authors'} />
+      <BirthForm show={page === 'authors'} />
 
       <Books show={page === 'books'} />
 

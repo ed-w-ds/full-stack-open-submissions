@@ -133,6 +133,10 @@ const typeDefs = `
             name: String!
             setBornTo: Int!
         ): Author
+        AddAuthor(
+            name: String!
+            born: Int
+        ): Author
     }
 `
 
@@ -199,6 +203,19 @@ const resolvers = {
             const updatedAuthor = { ...author, born: args.setBornTo }
             authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
             return updatedAuthor
+        },
+        AddAuthor: (root, args) => {
+            if (authors.find(a => a.name === args.name)) {
+                throw new GraphQLError('Author must be unique', {
+                    extensions: {
+                        code: 'BAD_USER_INPUT',
+                        invalidArgs: args.name
+                    }
+                })
+            }
+            const author = { ...args, id: uuid() }
+            authors = authors.concat(author)
+            return author
         }
     }
 }

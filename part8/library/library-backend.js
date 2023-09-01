@@ -3,31 +3,50 @@ const { startStandaloneServer } = require('@apollo/server/standalone')
 const { v1: uuid } = require('uuid')
 const { GraphQLError } = require('graphql')
 
-let authors = [
-  {
-    name: 'Robert Martin',
-    id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-    born: 1952,
-  },
-  {
-    name: 'Martin Fowler',
-    id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-    born: 1963
-  },
-  {
-    name: 'Fyodor Dostoevsky',
-    id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-    born: 1821
-  },
-  { 
-    name: 'Joshua Kerievsky', // birthyear not known
-    id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-  },
-  { 
-    name: 'Sandi Metz', // birthyear not known
-    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
-  },
-]
+
+
+const mongoose = require('mongoose')
+mongoose.set('strictQuery', false)
+const Book = require('./models/book')
+const Author = require('./models/author')
+require('dotenv').config()
+
+const MONGODB_URI = process.env.MONGODB_URI
+console.log('connecting to', MONGODB_URI)
+
+mongoose.connect(MONGODB_URI)
+    .then(() => {
+        console.log('connected to MongoDB')
+    })
+    .catch((error) => {
+        console.log('error connection to MongoDB:', error.message)
+    })
+
+// let authors = [
+//   {
+//     name: 'Robert Martin',
+//     id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
+//     born: 1952,
+//   },
+//   {
+//     name: 'Martin Fowler',
+//     id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
+//     born: 1963
+//   },
+//   {
+//     name: 'Fyodor Dostoevsky',
+//     id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
+//     born: 1821
+//   },
+//   { 
+//     name: 'Joshua Kerievsky', // birthyear not known
+//     id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
+//   },
+//   { 
+//     name: 'Sandi Metz', // birthyear not known
+//     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+//   },
+// ]
 
 /*
  * Suomi:
@@ -102,7 +121,7 @@ let books = [
 const typeDefs = `
     type Book {
         title: String!
-        author: String!
+        author: Author!
         published: Int!
         id: ID!
         genres: [String!]!
@@ -173,10 +192,16 @@ const resolvers = {
     bookCount: (root) => books.filter(b => b.author === root.name).length
   },
     Mutation: {
-        addBook: (root, args) => {
-            if (!authors.find(a => a.name === args.author)) {
-                const author = { name: args.author, id: uuid() }
-                authors = authors.concat(author)
+        addBook: async (root, args) => {
+          // finds all documents in the collection ( this time authors )
+          const authors = await Author.find({})
+          // finds the author with the name given in the args
+          let author = authors.find(a => a.name === args.author)
+            if (!author) {
+                // const author = { name: args.author, id: uuid() }
+                // authors = authors.concat(author)
+                author = new Author({ name: args.author })
+                await author.save()
             }
             if (books.find(b => b.title === args.title)) {
                 throw new GraphQLError('Title must be unique', {
@@ -186,11 +211,12 @@ const resolvers = {
                     }
                 })
             }
-            const book = { ...args, id: uuid() }
-            books = books.concat(book)
-            return book
+            console.log(args)
+            const book = new Book({ ...args, author: author._id })
+            return book.save()
         },
         editAuthor: (root, args) => {
+            const authors = Author.find({})
             const author = authors.find(a => a.name === args.name)
             if (!author) {
                 throw new GraphQLError('Author not found', {
@@ -205,7 +231,9 @@ const resolvers = {
             return updatedAuthor
         },
         AddAuthor: (root, args) => {
-            if (authors.find(a => a.name === args.name)) {
+          const authors = Author.find({})
+          let author = authors.find(a => a.name === args.name)
+            if (author) {
                 throw new GraphQLError('Author must be unique', {
                     extensions: {
                         code: 'BAD_USER_INPUT',
@@ -213,9 +241,10 @@ const resolvers = {
                     }
                 })
             }
-            const author = { ...args, id: uuid() }
-            authors = authors.concat(author)
-            return author
+            // const author = { ...args, id: uuid() }
+            // authors = authors.concat(author)
+            author = new Author({ ...args })
+            return author.save()
         }
     }
 }

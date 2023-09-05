@@ -1,29 +1,33 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, gql } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 
-import { 
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql 
-} from '@apollo/client'
-
-// create a client object
-const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache(),
+// request and previousContext as parameters
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('phonenumbers-user-token')
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null,
+    }
+  }
 })
 
-// create a query
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000',
+})
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink)
+})
+
 const query = gql`
   query {
-    allPersons  {
-      name,
-      phone,
-      address {
-        street,
-        city
-      }
+    allPersons {
+      name
+      phone
       id
     }
   }

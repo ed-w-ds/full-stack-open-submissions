@@ -10,18 +10,33 @@ const PersonForm = ({ setError }) => {
   const [city, setCity] = useState('')
 
   const [ createPerson ] = useMutation(CREATE_PERSON, {
-    refetchQueries: [ { query: ALL_PERSONS } ],
+    // refetchQueries: [ { query: ALL_PERSONS } ],
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
       const messages = error.graphQLErrors[0].message
       setError(messages)
-    }
+    },
+    // instead of refecthing the queries we can update the cache
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_PERSONS }, ({ allPersons }) => {
+        return {
+          allPersons: allPersons.concat(response.data.addPerson),
+        }
+      })
+    },
   })
 
   const submit = async (event) => {
     event.preventDefault()
 
-    createPerson({  variables: { name, phone, street, city } })
+    createPerson({  variables: { 
+      name,
+      // this is required since the phone field is not required in the schema
+      // therefore it can be null but not an empty string
+      phone: phone.length > 0 ? phone : null,
+      street,
+      city } 
+    })
 
     setName('')
     setPhone('')

@@ -210,7 +210,7 @@ const resolvers = {
     },
     allAuthors: async () => await Author.find({}),
     me: (root, args, context) => {
-        console.log('context', context)
+        console.log('context', context.currentUser)
         return context.currentUser
     }
   },
@@ -285,6 +285,7 @@ const resolvers = {
         },
         editAuthor: async (root, args, context) => {
             const currentUser = context.currentUser
+            console.log('currentUser', currentUser)
             if (!currentUser) {
                 throw new GraphQLError('not authenticated', {
                     extensions: {
@@ -293,7 +294,8 @@ const resolvers = {
                 })
             }
             const author = await Author.findOne( { name: args.name } )
-            if (author.length === 0 || !author) {
+            console.log('author in editAuthor', author)
+            if (!author) {
                 throw new GraphQLError('Author not found', {
                     extensions: {
                         code: 'BAD_USER_INPUT',
@@ -301,8 +303,13 @@ const resolvers = {
                     }
                 })
             }
-            const updatedAuthor = { ...author, born: args.setBornTo }
-            const authors = await authors.map(a => a.name === args.name ? updatedAuthor : a)
+            // const updatedAuthor = { ...author, born: args.setBornTo } 
+            const updatedAuthor = await Author.findOneAndUpdate(
+                { name: args.name },
+                { born: args.setBornTo },
+                { new: true } 
+            )
+            console.log('updatedAuthor', updatedAuthor)
             return updatedAuthor
         },
         AddAuthor: async (root, args) => {
@@ -374,7 +381,6 @@ startStandaloneServer(server, {
     // The object returned by context is given to all resolvers as their third parameter. 
     context: async ({ req, res }) => {
         const auth = req ? req.headers.authorization : null
-        console.log('auth 361', auth)
         // remember to add bearer to authorization in sandbox
         if (auth && auth.startsWith('Bearer ')) {
             const decodedToken = jwt.verify(

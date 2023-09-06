@@ -25,8 +25,6 @@ const BirthForm = (token, page) => {
 
     const authors = authorsResult.data.allAuthors
 
-    console.log('authors', authors)
-
     const submit = async (event) => {
         event.preventDefault()
 

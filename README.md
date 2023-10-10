@@ -1,3 +1,3 @@
 ﻿# full-stack-open-submissions
  
-Exercises from Full Stack open programming course
+Exercises from Full Stack Open programming course
